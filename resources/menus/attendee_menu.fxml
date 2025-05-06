@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.collections.FXCollections?>
+<StackPane fx:id="rootPane" prefHeight="580" prefWidth="350"
+           xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="controllers.menus.AttendeeMenu" stylesheets="@/css/style.css">
+
+    <!-- Attendee Menu Page -->
+    <VBox fx:id="mainMenuPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+        <Label text="Attendee Menu">
+            <font><Font size="24"/></font>
+        </Label>
+        <Label fx:id="welcomeLabel" />
+        <Button text="View Profile" onAction="#viewProfile"/>
+        <Button text="Show Dashboard" onAction="#showDashboard"/>
+        <Button text="Logout" onAction="#logout"/>
+    </VBox>
+
+    <!-- Profile Page -->
+    <VBox fx:id="profilePane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Attendee Menu">
+            <font><Font name="Arial" size="24"/></font>
+        </Label>
+        <Label text="Profile Info">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <Label fx:id="profileInfo"/>
+        <Button text="Edit Profile" onAction="#editProfile"/>
+        <Button text="Back" onAction="#back"/>
+    </VBox>
+
+    <!-- Edit Profile -->
+    <VBox fx:id="editProfilePane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Attendee Menu">
+            <font><Font name="Arial" size="24"/></font>
+        </Label>
+        <Label text="Edit Profile Info">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <HBox spacing="10" alignment="CENTER">
+            <VBox spacing="2">
+                <TextField fx:id="firstNameField"/>
+                <Label fx:id="firstNameErrorLabel" visible="false" styleClass="error-label"/>
+            </VBox>
+            <VBox spacing="2">
+                <TextField fx:id="lastNameField"/>
+                <Label fx:id="lastNameErrorLabel" visible="false" styleClass="error-label"/>
+            </VBox>
+        </HBox>
+        <VBox spacing="2">
+            <TextField fx:id="usernameField"/>
+            <Label fx:id="usernameErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+        <HBox spacing="10" alignment="CENTER">
+            <!-- Gender ComboBox with Error Label -->
+            <VBox spacing="2">
+                <ComboBox fx:id="genderComboBox" prefWidth="200">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="MALE" />
+                            <String fx:value="FEMALE" />
+                            <String fx:value="OTHER" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <Label fx:id="genderErrorLabel" visible="false" styleClass="error-label"/>
+            </VBox>
+
+            <VBox spacing="2">
+                <DatePicker fx:id="dobField" prefWidth="200"/>
+                <Label fx:id="dobErrorLabel" visible="false" styleClass="error-label"/>
+            </VBox>
+        </HBox>
+
+        <VBox spacing="2">
+            <TextField fx:id="addressField"/>
+            <Label fx:id="addressErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+
+        <VBox spacing="2">
+            <TextField fx:id="emailField"/>
+            <Label fx:id="emailErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+
+        <VBox spacing="2">
+            <PasswordField fx:id="passwordField"/>
+            <Label fx:id="passwordErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+
+        <VBox spacing="2">
+            <PasswordField fx:id="confirmPasswordField"/>
+            <Label fx:id="confirmPasswordErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+
+        <Button text="Confirm Changes" onAction="#confirmChanges"/>
+        <Button text="Back" onAction="#back"/>
+    </VBox>
+
+    <!-- Dashboard -->
+    <VBox fx:id="showDashboardPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Attendee Menu">
+            <font><Font size="24"/></font>
+        </Label>
+        <Label text="Dashboard">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <Button text="Events" onAction="#eventsButton"/>
+        <Button text="Buy Tickets" onAction="#buyTicketsButton"/>
+        <Button text="Back" onAction="#back"/>
+    </VBox>
+    <!-- Events -->
+    <VBox fx:id="eventsPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Attendee Menu">
+            <font><Font size="24"/></font>
+        </Label>
+        <Label text="Events">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <Label fx:id="allEvents"/>
+        <Button text="Back" onAction="#back"/>
+    </VBox>
+    <!-- Buy Ticket -->
+    <VBox fx:id="buyTicketPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Attendee Menu">
+            <font><Font size="24"/></font>
+        </Label>
+        <Label text="Buy Ticket">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <VBox spacing="2">
+            <TextField fx:id="eventIdField" promptText="Event ID" />
+            <Label fx:id="eventIdErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+        <Button text="Buy" onAction="#buyButton"/>
+        <Button text="Back" onAction="#back"/>
+    </VBox>
+
+</StackPane>

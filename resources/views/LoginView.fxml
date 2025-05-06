@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.RadioButton?>
+
+<VBox alignment="CENTER" prefHeight="580.0" prefWidth="350.0" spacing="20"
+      xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx"
+      fx:controller="controllers.views.LoginView" stylesheets="@/css/style.css">
+
+    <!-- Title -->
+    <Label text="Login As" layoutX="100" layoutY="30">
+        <font>
+            <Font name="Arial" size="20"/>
+        </font>
+    </Label>
+
+    <!-- Role -->
+    <HBox spacing="10" alignment="CENTER">
+        <RadioButton text="Attendee" fx:id="attendeeRadio" />
+        <RadioButton text="Organizer" fx:id="organizerRadio" />
+        <RadioButton text="Admin" fx:id="adminRadio" />
+    </HBox>
+
+    <!-- Fields -->
+    <VBox alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+        <VBox spacing="2">
+            <TextField fx:id="emailField" promptText="Email" />
+            <Label fx:id="emailErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+
+        <VBox spacing="2">
+            <PasswordField fx:id="passwordField" promptText="Password" />
+            <Label fx:id="passwordErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+    </VBox>
+
+    <Label fx:id="loginErrorLabel" text = "Invalid credentials!" visible="false" styleClass="error-label"/>
+
+    <!-- Login Button -->
+    <Button text="Login" onAction="#handleLogin" defaultButton="true"/>
+
+    <!-- Signup Link -->
+    <HBox alignment="CENTER" spacing="5">
+        <Label text="Don't have an account?" />
+        <Hyperlink text="Sign up" onAction="#switchToSignUp" />
+    </HBox>
+</VBox>

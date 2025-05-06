@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<VBox alignment="CENTER" prefHeight="580.0" prefWidth="350.0" spacing="20"
+      xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx"
+      fx:controller="controllers.views.SignUpView" stylesheets="@/css/style.css">
+
+    <!-- Title -->
+    <Label text="Sign-Up As" layoutX="100" layoutY="30">
+        <font>
+            <Font name="Arial" size="20"/>
+        </font>
+    </Label>
+
+    <!-- Role -->
+    <HBox spacing="10" alignment="CENTER">
+        <RadioButton text="Attendee" fx:id="attendeeRadio" />
+        <RadioButton text="Organizer" fx:id="organizerRadio" />
+        <RadioButton text="Admin" fx:id="adminRadio" />
+    </HBox>
+
+    <!-- Fields -->
+    <VBox alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+        <!-- First and Last Name Fields -->
+        <HBox spacing="10" alignment="CENTER">
+            <VBox spacing="2">
+                <TextField fx:id="firstNameField" promptText="First Name" />
+                <Label fx:id="firstNameErrorLabel" text="First Name is required!" visible="false" styleClass="error-label"/>
+            </VBox>
+            <VBox spacing="2">
+                <TextField fx:id="lastNameField" promptText="Last Name" />
+                <Label fx:id="lastNameErrorLabel" text="Last Name is required!" visible="false" styleClass="error-label"/>
+            </VBox>
+        </HBox>
+
+        <VBox spacing="2">
+            <TextField fx:id="usernameField" promptText="Username" />
+            <Label fx:id="usernameErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+
+        <HBox spacing="10" alignment="CENTER">
+            <!-- Gender ComboBox with Error Label -->
+            <VBox spacing="2">
+                <ComboBox fx:id="genderComboBox" prefWidth="200" styleClass="error-label">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Male" />
+                            <String fx:value="Female" />
+                            <String fx:value="Other" />
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <Label fx:id="genderErrorLabel" text = "Gender is required!" visible="false" styleClass="error-label"/>
+            </VBox>
+
+            <!-- Date of Birth Field with Error Label -->
+            <VBox spacing="2">
+                <DatePicker fx:id="dobField" prefWidth="200" promptText="Date of Birth" />
+                <Label fx:id="dobErrorLabel" visible="false" styleClass="error-label"/>
+            </VBox>
+        </HBox>
+
+        <VBox spacing="2">
+            <TextField fx:id="addressField" promptText="Address" />
+            <Label fx:id="addressErrorLabel" text="Address is required!" visible="false" styleClass="error-label"/>
+        </VBox>
+
+        <VBox spacing="2">
+            <TextField fx:id="emailField" promptText="Email" />
+            <Label fx:id="emailErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+
+        <VBox spacing="2">
+            <PasswordField fx:id="passwordField" promptText="Password" />
+            <Label fx:id="passwordErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+
+        <VBox spacing="2">
+            <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" />
+            <Label fx:id="confirmPasswordErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+    </VBox>
+
+    <!-- Signup Button -->
+    <Button alignment="CENTER" text="Sign Up" onAction="#handleSignUp" defaultButton="true" />
+
+    <!-- Login Link -->
+    <HBox alignment="CENTER" spacing="5">
+        <Label text="Already have an account?" />
+        <Hyperlink text="Login" onAction="#switchToLogin" />
+    </HBox>
+</VBox>

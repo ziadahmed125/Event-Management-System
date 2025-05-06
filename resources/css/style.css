@@ -1,0 +1,10 @@
+.error-label {
+    -fx-text-fill: red;
+    -fx-font-size: 8px;
+    -fx-padding: 2 0 0 2;
+}
+
+.error-field {
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+}

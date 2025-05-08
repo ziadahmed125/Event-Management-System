@@ -1,7 +1,8 @@
 package models;
 
 import core.Database;
-import core.Utility;
+
+import java.util.ArrayList;
 
 public class Room {
     private static int idCounter = 1; // Static counter shared by all Room instances
@@ -18,6 +19,11 @@ public class Room {
         this.price = price;
     }
 
+    @Override
+    public String toString() {
+        return roomId + "";
+    }
+
     // Getters and setters
     public int getRoomId() {
         return roomId;
@@ -26,39 +32,38 @@ public class Room {
     public String getRoomType() {
         return roomType;
     }
-
     public void setRoomType(String roomType) {
         this.roomType = roomType;
     }
-
     public double getPrice() {
         return price;
     }
-
     public void setPrice(double price) {
         this.price = price;
     }
-
-    public boolean isAvailable() {
-        return availability;
-    }
-
-    public static boolean updateRoomAvailability(int roomId, boolean availability) {
-        for (Room room : Database.roomsDB) {
-            if (room.getRoomId() == roomId) {
-                room.setAvailability(availability);
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public void setAvailability(boolean availability) {
         this.availability = availability;
     }
     public boolean getAvailability() {
         return availability;
+    }
+
+    public String getRoomInfo() {
+        return "Room ID:" + this.roomId
+                + "Room Type: " + this.roomType
+                + "Room Price: $" + this.price;
+    }
+
+    public static boolean updateRoomAvailability(int roomId, boolean availability) {
+        for (Room room : Database.roomsDB) {
+            if (room.getRoomId() == roomId) {
+                Database.roomsDB.remove(room);
+                room.setAvailability(availability);
+                Database.roomsDB.add(room);
+            }
+        }
+
+        return false;
     }
 
     public static String availableRooms() {
@@ -74,7 +79,7 @@ public class Room {
                         + "\nID: " + room.getRoomId()
                         + "\nType: " + room.getRoomType()
                         + "\nPrice: $" + room.getPrice()
-                        + "\n-------------------";
+                        + "\n-------------------\n";
             }
         }
 
@@ -84,8 +89,14 @@ public class Room {
             return "No Available Rooms!";
     }
 
-    @Override
-    public String toString() {
-        return "Room ID: " + roomId + ", Type: " + roomType + ", Price: " + price + ", Available: " + availability;
+    public static ArrayList<Room> getAvailableRooms() {
+        ArrayList<Room> rooms = new ArrayList<>();
+
+        for(Room room : Database.roomsDB) {
+            if (room.getAvailability())
+                rooms.add(room);
+        }
+
+        return rooms;
     }
 }

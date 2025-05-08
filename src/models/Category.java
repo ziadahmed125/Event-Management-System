@@ -1,69 +1,63 @@
 package models;
 
 import core.*;
-import interfaces.*;
 
-public class Category implements Imanageable {
+import java.util.ArrayList;
+
+public class Category {
     private String name;
     private String description;
-    private String type;
 
-    public Category(String name, String description, String type) {
+    public Category(String name, String description) {
         this.name = name;
         this.description = description;
-        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
     }
 
     // CRUD Implementation
-    @Override
-    public void create() {
-        Database.categoriesDB.add(this);
-        System.out.println("category created successfully");
+    public static void create(Category category) {
+        Database.categoriesDB.add(category);
     }
 
-    @Override
     public void read() {
-        System.out.println("\ncategory details:");
-        System.out.println("name: " + name);
-        System.out.println("description: " + description);
-        System.out.println("type: " + type);
     }
 
-    public static void readAll() {
-        System.out.println("\nall categories:");
+    public static void update(String s, Category c) {
         for (Category category : Database.categoriesDB) {
-            category.read();
-            System.out.println("...................................");
-
-        }
-    }
-
-    @Override
-    public void update() {
-        for (Category category : Database.categoriesDB) {
-            if (category.name.equals(this.name)) {
-                category.description = this.description;
-                category.type = this.type;
-                System.out.println("category updated successfully");
-                return;
+            if (category.getName().equals(s)) {
+                category.setName(c.getName());
+                category.setDescription(c.getDescription());
+                return; // Exit once updated
             }
         }
-        System.out.println("category not found ");
     }
 
-    @Override
-    public void delete() {
-        for (int i = 0; i < Database.categoriesDB.size(); i++) {
-            if (Database.categoriesDB.get(i).name.equals(this.name)) {
-                Database.categoriesDB.remove(i);
-                System.out.println("category deleted successfully");
-                return;
-            }
-        }
-        System.out.println("category not found");
+    public static void delete(String s) {
+        Database.categoriesDB.removeIf(category -> category.getName().equals(s));
+    }
+
+    public static boolean isNameUnique(String s) {
+        return Database.categoriesDB.stream().anyMatch(category -> category.getName().equals(s));
     }
 
     // Getters and setters
+    public static ArrayList<String> getCategoryNames() {
+        if(Database.categoriesDB.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        ArrayList<String> names = new ArrayList<>();
+
+        for(Category category : Database.categoriesDB) {
+            names.add(category.getName());
+        }
+
+        return names;
+    }
     public String getName() {
         return name;
     }
@@ -75,11 +69,5 @@ public class Category implements Imanageable {
     }
     public void setDescription(String description) {
         this.description = description;
-    }
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
     }
 }

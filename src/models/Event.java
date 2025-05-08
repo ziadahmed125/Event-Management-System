@@ -2,12 +2,12 @@ package models;
 
 import core.*;
 import actors.*;
-import interfaces.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Event implements Imanageable {
+public class Event {
     private static int idCounter = 1; // For auto-incrementing ID
 
     private String eventId;
@@ -20,6 +20,10 @@ public class Event implements Imanageable {
     private double ticketPrice;
     private ArrayList<Attendee> attendees;
 
+    public Event() {
+
+    }
+
     public Event(String name, String description, Category category, Room room, Organizer organizer, double ticketPrice) {
         this.eventId = "EVT#" + idCounter++; // Auto-generated ID
         this.name = name;
@@ -29,8 +33,11 @@ public class Event implements Imanageable {
         this.organizer = organizer;
         this.ticketPrice = ticketPrice;
         this.attendees = new ArrayList<>();
+    }
 
-        Database.eventsDB.add(this);
+    @Override
+    public String toString() {
+        return this.getName();
     }
 
     public static String showEvents() {
@@ -53,69 +60,17 @@ public class Event implements Imanageable {
         return string;
     }
 
-    // CRUD Implementation
-    @Override
-    public void create() {
-        Database.eventsDB.add(this);
-        System.out.println("Event created successfully!");
+    public static void create(Event event) {
+        Database.eventsDB.add(event);
     }
 
-    @Override
-    public void read() {
-        System.out.println("\nEvent Details:");
-        System.out.println("ID: " + eventId);
-        System.out.println("Name: " + name);
-        System.out.println("Description: " + description);
-        System.out.println("Category: " + category.getName());
-        System.out.println("Room: " + room.getRoomId());
-        System.out.println("Organizer: " + organizer.getUsername() );
-        System.out.println("Ticket Price: " + ticketPrice);
+    public static void read() {
     }
 
-    public static void readAll() {
-        System.out.println("\nAll Events:");
-        if (Database.eventsDB.isEmpty()) {
-            System.out.println("There are no events yet");
-        } else {
-            for (Event event : Database.eventsDB) {
-                event.read();
-                System.out.println("...................................");
-            }
-        }
+    public static void update() {
     }
 
-    @Override
-    public void update() {
-        for (Event event : Database.eventsDB) {
-            if (event.eventId.equals(this.eventId)) {
-                event.name = this.name;
-                event.description = this.description;
-                event.category = this.category;
-                event.dateTime = this.dateTime;
-                event.room = this.room;
-                event.organizer = this.organizer;
-                event.ticketPrice = this.ticketPrice;
-                System.out.println("Event updated successfully!");
-                return;
-            }
-        }
-        System.out.println("Event not found");
-    }
-
-    @Override
-    public void delete() {
-        for (int i = 0; i < Database.eventsDB.size(); i++) {
-            if (Database.eventsDB.get(i).eventId.equals(this.eventId)) {
-                Database.eventsDB.remove(i);
-                System.out.println("Event deleted successfully!");
-                return;
-            }
-        }
-        System.out.println("Event not found for deletion!");
-    }
-
-    public void addAttendee(Attendee attendee) {
-        attendees.add(attendee);
+    public static void delete() {
     }
 
     public static Event getEvent(String id) {
@@ -128,39 +83,59 @@ public class Event implements Imanageable {
         return null;
     }
 
-    // Getters
+    // Getters and Setters
     public String getEventId() {
         return eventId;
     }
-
+    public void setEventId (String eventId) {
+        this.eventId = eventId;
+    }
     public String getName() {
         return name;
     }
-
+    public void setName (String name) {
+        this.name = name;
+    }
     public String getDescription() {
         return description;
     }
-
+    public void setDescription (String description) {
+        this.description = description;
+    }
     public Category getCategory() {
         return category;
     }
-
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public void setCategory (Category category) {
+        this.category = category;
     }
-
     public Room getRoom() {
         return room;
     }
-
+    public void setRoom (Room room) {
+        this.room = room;
+    }
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+    public void setDateTime (LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
     public Organizer getOrganizer() {
         return organizer;
     }
-
+    public void setOrganizer (Organizer organizer) {
+        this.organizer = organizer;
+    }
     public double getTicketPrice() {
         return ticketPrice;
     }
+    public void setTicketPrice (Double ticketPrice) {
+        this.ticketPrice = ticketPrice;
+    }
 
+    public void addAttendee(Attendee attendee) {
+        attendees.add(attendee);
+    }
     public ArrayList<Attendee> getAttendees() {
         return attendees;
     }

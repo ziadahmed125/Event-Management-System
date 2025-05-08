@@ -1,11 +1,8 @@
 package actors;
 
-import core.Utility;
-import interfaces.*;
 import models.Gender;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 public abstract class User {
 

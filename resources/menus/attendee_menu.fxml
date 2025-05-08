@@ -103,6 +103,30 @@
         <Button onAction="#back" text="Back" />
     </VBox>
 
+    <!-- Wallet -->
+    <VBox fx:id="walletPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+        <Label text="Attendee Menu">
+            <font><Font size="24" /></font>
+        </Label>
+        <Label text="Wallet">
+            <font><Font name="Arial" size="18" /></font>
+        </Label>
+        <Label fx:id="userBalanceLabel" />
+        <HBox spacing="4">
+            <HBox>
+                <Label text="Add&#10;Funds">
+                    <font><Font name="Arial" size="10" /></font>
+                </Label>
+            </HBox>
+            <VBox>
+                <TextField fx:id="addBalanceField" prefWidth="125" promptText="Amount" />
+                <Label fx:id="addBalanceErrorLabel" styleClass="error-label" visible="false" />
+            </VBox>
+            <Button onAction="#AddBalanceButton" text="Add" />
+        </HBox>
+        <Button onAction="#back" text="Back" />
+    </VBox>
+
     <!-- Dashboard -->
     <VBox fx:id="dashboardPane" alignment="CENTER" managed="false" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false">
         <Label text="Attendee Menu">
@@ -144,29 +168,6 @@
         <Label fx:id="eventPriceLabel" text="Price = $??" />
         <Label fx:id="buyTicketErrorLabel" styleClass="error-label" visible="false" />
         <Button onAction="#buyTicketButton" text="Buy" />
-        <Button onAction="#back" text="Back" />
-    </VBox>
-    <!-- Wallet -->
-    <VBox fx:id="walletPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
-        <Label text="Attendee Menu">
-            <font><Font size="24" /></font>
-        </Label>
-        <Label text="Wallet">
-            <font><Font name="Arial" size="18" /></font>
-        </Label>
-        <Label fx:id="userBalanceLabel" />
-        <HBox spacing="4">
-            <HBox>
-                <Label text="Add&#10;Funds">
-                    <font><Font name="Arial" size="10" /></font>
-                </Label>
-            </HBox>
-            <VBox>
-                <TextField fx:id="addBalanceField" prefWidth="125" promptText="Amount" />
-                <Label fx:id="addBalanceErrorLabel" styleClass="error-label" visible="false" />
-            </VBox>
-            <Button onAction="#AddBalanceButton" text="Add" />
-        </HBox>
         <Button onAction="#back" text="Back" />
     </VBox>
 </StackPane>

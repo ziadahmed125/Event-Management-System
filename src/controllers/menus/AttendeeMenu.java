@@ -30,9 +30,10 @@ public class AttendeeMenu {
     @FXML private VBox InterestPane;
     @FXML private TextField addInterestField;
     @FXML private VBox editProfilePane;
+    // Wallet
+    @FXML private VBox walletPane;
     // Dashboard
     @FXML private VBox dashboardPane;
-    @FXML private VBox walletPane;
     @FXML private VBox eventsPane;
     @FXML private VBox buyTicketPane;
 
@@ -41,6 +42,9 @@ public class AttendeeMenu {
 
     // profile
     @FXML private Label profileInfo;
+
+    //Add Interest
+    @FXML private Label addInterestErrorLabel;
 
     // edit profile
     @FXML private TextField firstNameField;
@@ -61,8 +65,10 @@ public class AttendeeMenu {
     @FXML private Label passwordErrorLabel;
     @FXML private Label confirmPasswordErrorLabel;
 
-    //Add Interest
-    @FXML private Label addInterestErrorLabel;
+    // wallet
+    @FXML private Label userBalanceLabel;
+    @FXML private TextField addBalanceField;
+    @FXML private Label addBalanceErrorLabel;
 
     // dashboard
     @FXML private Label allEvents;
@@ -70,9 +76,6 @@ public class AttendeeMenu {
     @FXML private Label eventIdErrorLabel;
     @FXML private Label eventPriceLabel;
     @FXML private Label buyTicketErrorLabel;
-    @FXML private Label userBalanceLabel;
-    @FXML private TextField addBalanceField;
-    @FXML private Label addBalanceErrorLabel;
 
     public void setLoggedInAttendee(Attendee attendee) {
         this.loggedInAttendee = attendee;
@@ -342,10 +345,6 @@ public class AttendeeMenu {
         switchPane(mainMenuPane);
     }
 
-    // dashboard
-    public void showDashboard(ActionEvent event) {
-        switchPane(dashboardPane);
-    }
     // wallet
     public void walletButton(ActionEvent event) {
         switchPane(walletPane);
@@ -385,6 +384,11 @@ public class AttendeeMenu {
         loggedInAttendee.addFunds(Double.parseDouble(addBalanceField.getText().trim()));
         addBalanceField.setText("");
         userBalanceLabel.setText(loggedInAttendee.getBalanceString());
+    }
+
+    // dashboard
+    public void showDashboard(ActionEvent event) {
+        switchPane(dashboardPane);
     }
     // show events
     public void eventsButton(ActionEvent event) {
@@ -461,6 +465,7 @@ public class AttendeeMenu {
         }
 
         loggedInAttendee.deductFunds(e.getTicketPrice());
+        e.addAttendee(loggedInAttendee);
         loggedInAttendee.setTickets(e.getEventId());
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Ticket bought successfully!");

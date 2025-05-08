@@ -43,8 +43,13 @@ public class AdminMenu {
     @FXML private VBox updateRoomAvailabilityPane;
     // Manage Categories
     @FXML private VBox manageCategoriesPane;
+    @FXML private VBox showCategoriesPane;
+    @FXML private VBox addCategoryPane;
+    @FXML private VBox editCategoryPane;
+    @FXML private VBox deleteCategoryPane;
 
-    //
+
+    // Role and Working Hours
     @FXML private TextField setRoleField;
     @FXML private Label setRoleErrorLabel;
     @FXML private TextField setWorkingHoursField;
@@ -82,16 +87,31 @@ public class AdminMenu {
 
     // manage rooms
     @FXML private Label allRooms;
-    @FXML private TextField roomTypeField;
     @FXML private Label roomTypeErrorLabel;
-    @FXML private TextField roomPriceField;
     @FXML private Label roomPriceErrorLabel;
-    @FXML private ComboBox availabilityComboBox;
     @FXML private Label availabilityComboBoxErrorLabel;
-    @FXML private TextField roomIdField;
     @FXML private Label roomIdErrorLabel;
-    @FXML private ComboBox updateAvailabilityComboBox;
     @FXML private Label updateAvailabilityComboBoxErrorLabel;
+    @FXML private TextField roomTypeField;
+    @FXML private TextField roomPriceField;
+    @FXML private TextField roomIdField;
+    @FXML private ComboBox availabilityComboBox;
+    @FXML private ComboBox updateAvailabilityComboBox;
+
+    // manage categories
+    @FXML private Label allCategories;
+    @FXML private TextField categoryNameField;
+    @FXML private TextField categoryDescriptionField;
+    @FXML private Label categoryNameErrorLabel;
+    @FXML private Label categoryDescriptionErrorLabel;
+    @FXML private TextField editCategoryNameField;
+    @FXML private TextField editCategoryDescriptionField;
+    @FXML private Label editCategoryNameErrorLabel;
+    @FXML private Label editCategoryDescriptionErrorLabel;
+    @FXML private ComboBox<String> availableCategoryComboBox;
+    @FXML private ComboBox<String> editAvailableCategoryComboBox;
+    @FXML private Label availableCategoryErrorLabel;
+    @FXML private Label editAvailableCategoryErrorLabel;
 
     public void setLoggedInAdmin(Admin admin) {
         this.loggedInAdmin = admin;
@@ -115,6 +135,8 @@ public class AdminMenu {
     @FXML
     public void initialize() {
         genderComboBox.setItems(FXCollections.observableArrayList(Gender.values()));
+        availableCategoryComboBox.setItems(FXCollections.observableArrayList(Category.getCategoryNames()));
+        editAvailableCategoryComboBox.setItems(FXCollections.observableArrayList(Category.getCategoryNames()));
     }
 
     public void confirmRole(ActionEvent event) {
@@ -125,6 +147,8 @@ public class AdminMenu {
             setRoleField.getStyleClass().add("error-field");
             setRoleErrorLabel.setText("Filed can't be empty!");
             setRoleField.setVisible(true);
+
+            return;
         }
 
         loggedInAdmin.setRole(setRoleField.getText().trim());
@@ -142,6 +166,8 @@ public class AdminMenu {
             setWorkingHoursField.getStyleClass().add("error-field");
             setWorkingHoursLabel.setText("Filed can't be empty!");
             setRoleField.setVisible(true);
+
+            return;
         }
 
         try {
@@ -151,6 +177,8 @@ public class AdminMenu {
             setWorkingHoursField.getStyleClass().add("error-field");
             setWorkingHoursLabel.setText("Must be a number!");
             setRoleField.setVisible(true);
+
+            return;
         }
 
         loggedInAdmin.setWorkingHours(Integer.parseInt(setWorkingHoursField.getText().trim()));
@@ -424,7 +452,7 @@ public class AdminMenu {
             valid = false;
         }
 
-        if(availabilityComboBox == null) {
+        if(availabilityComboBox.getValue() == null) {
             availabilityComboBox.getStyleClass().add("error-field");
             availabilityComboBoxErrorLabel.setVisible(true);
             valid = false;
@@ -463,7 +491,7 @@ public class AdminMenu {
             valid = false;
         }
 
-        if(updateAvailabilityComboBox == null) {
+        if(updateAvailabilityComboBox.getValue() == null) {
             updateAvailabilityComboBox.getStyleClass().add("error-field");
             updateAvailabilityComboBoxErrorLabel.setVisible(true);
             valid = false;
@@ -472,7 +500,131 @@ public class AdminMenu {
         return valid;
     }
 
+    // manage categories
     public void manageCategories(ActionEvent event) {
+        switchPane(manageCategoriesPane);
+    }
+    public void showCategoriesButton(ActionEvent event) {
+        switchPane(showCategoriesPane);
+
+        allCategories.setText(loggedInAdmin.showCategories());
+    }
+    public void addCategoryButton(ActionEvent event) {
+        switchPane(addCategoryPane);
+
+        categoryNameField.getStyleClass().removeAll("error-field");
+        categoryNameErrorLabel.setVisible(false);
+        categoryDescriptionField.getStyleClass().removeAll("error-field");
+        categoryDescriptionErrorLabel.setVisible(false);
+    }
+    public void confirmAddCategoryButton(ActionEvent event) {
+        categoryNameField.getStyleClass().removeAll("error-field");
+        categoryNameErrorLabel.setVisible(false);
+        categoryDescriptionField.getStyleClass().removeAll("error-field");
+        categoryDescriptionErrorLabel.setVisible(false);
+
+        if(Category.isNameUnique(categoryNameField.getText().trim())) {
+            categoryNameField.getStyleClass().add("error-field");
+            categoryNameErrorLabel.setText("Name already exists!");
+            categoryNameErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        if(categoryNameField.getText().trim().isEmpty()) {
+            categoryNameField.getStyleClass().add("error-field");
+            categoryNameErrorLabel.setText("Can't be empty!");
+            categoryNameErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        if(categoryDescriptionField.getText().trim().isEmpty()) {
+            categoryDescriptionField.getStyleClass().add("error-field");
+            categoryDescriptionErrorLabel.setText("Can't be empty!");
+            categoryDescriptionErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        Category.create(new Category(categoryNameField.getText().trim(), categoryDescriptionField.getText().trim()));
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Category added Successfully!");
+        alert.showAndWait();
+
+        switchPane(manageCategoriesPane);
+    }
+    public void editCategoryButton(ActionEvent event) {
+        switchPane(editCategoryPane);
+
+        initialize();
+
+        editCategoryNameField.getStyleClass().removeAll("error-field");
+        editCategoryNameErrorLabel.setVisible(false);
+        availableCategoryComboBox.getStyleClass().removeAll("error-field");
+        availableCategoryErrorLabel.setVisible(false);
+    }
+    public void confirmEditAddCategoryButton(ActionEvent event) {
+        editCategoryNameField.getStyleClass().removeAll("error-field");
+        editCategoryNameErrorLabel.setVisible(false);
+        availableCategoryComboBox.getStyleClass().removeAll("error-field");
+        availableCategoryErrorLabel.setVisible(false);
+
+        String selected = availableCategoryComboBox.getValue();
+        if (selected == null || selected.isEmpty()) {
+            availableCategoryComboBox.getStyleClass().add("error-field");
+            availableCategoryErrorLabel.setText("Must select a category!");
+            availableCategoryErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        if(Category.isNameUnique(editCategoryNameField.getText().trim())) {
+            editCategoryNameField.getStyleClass().add("error-field");
+            editCategoryNameErrorLabel.setText("Name already exists!");
+            editCategoryNameErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        if(editCategoryNameField.getText().trim().isEmpty()) return;
+        if(editCategoryDescriptionField.getText().trim().isEmpty()) return;
+
+        Category.update(availableCategoryComboBox.getValue(), new Category(categoryNameField.getText().trim(), categoryDescriptionField.getText().trim()));
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Category Edited Successfully!");
+        alert.showAndWait();
+
+        editAvailableCategoryComboBox.setValue(null);
+        editCategoryNameField.setText("");
+        editCategoryDescriptionField.setText("");
+
+        switchPane(manageCategoriesPane);
+    }
+    public void deleteCategoryButton(ActionEvent event) {
+        switchPane(deleteCategoryPane);
+
+        initialize();
+
+        editAvailableCategoryComboBox.getStyleClass().removeAll("error-field");
+        editAvailableCategoryErrorLabel.setVisible(false);
+    }
+    public void confirmDeleteCategoryButton(ActionEvent event) {
+        availableCategoryComboBox.getStyleClass().removeAll("error-field");
+        availableCategoryErrorLabel.setVisible(false);
+
+        if(editAvailableCategoryComboBox.getValue().isEmpty()) {
+            editAvailableCategoryComboBox.getStyleClass().add("error-field");
+            editAvailableCategoryErrorLabel.setText("Must select a category!");
+            editAvailableCategoryErrorLabel.setVisible(false);
+
+            return;
+        }
+
+        Category.delete(availableCategoryComboBox.getValue());
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Category Deleted Successfully!");
+        alert.showAndWait();
 
         switchPane(manageCategoriesPane);
     }

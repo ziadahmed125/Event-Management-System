@@ -249,7 +249,84 @@
 
     <!-- Manage Categories-->
     <VBox fx:id="manageCategoriesPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
-
+        <Label text="Admin Menu">
+            <font><Font name="Arial" size="24"/></font>
+        </Label>
+        <Label text="Manage Categories">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <Button text="Show Categories" onAction="#showCategoriesButton"/>
+        <Button text="Add Category" onAction="#addCategoryButton"/>
+        <Button text="Edit Category" onAction="#editCategoryButton"/>
+        <Button text="Delete Category" onAction="#deleteCategoryButton"/>
+        <Button text="Back" onAction="#back"/>
+    </VBox>
+    <!-- Show Categories -->
+    <VBox fx:id="showCategoriesPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Admin Menu">
+            <font><Font name="Arial" size="24"/></font>
+        </Label>
+        <Label text="Categories">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <Label fx:id="allCategories"/>
+        <Button text="Back" onAction="#back"/>
+    </VBox>
+    <!-- Add Category -->
+    <VBox fx:id="addCategoryPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Admin Menu">
+            <font><Font name="Arial" size="24"/></font>
+        </Label>
+        <Label text="Add Category">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <VBox spacing="2">
+            <TextField fx:id="categoryNameField" promptText="Category Name" />
+            <Label fx:id="categoryNameErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+        <VBox spacing="2">
+            <TextField fx:id="categoryDescriptionField" promptText="Category Description" />
+            <Label fx:id="categoryDescriptionErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+        <Button text="Confirm" onAction="#confirmAddCategoryButton"/>
+        <Button text="Back" onAction="#back"/>
+    </VBox>
+    <!-- edit Category -->
+    <VBox fx:id="editCategoryPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Admin Menu">
+            <font><Font name="Arial" size="24"/></font>
+        </Label>
+        <Label text="Edit Category">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <VBox>
+            <ComboBox fx:id="availableCategoryComboBox" prefWidth="200" />
+            <Label fx:id="availableCategoryErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+        <VBox spacing="2">
+            <TextField fx:id="editCategoryNameField" promptText="Name" />
+            <Label fx:id="editCategoryNameErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+        <VBox spacing="2">
+            <TextField fx:id="editCategoryDescriptionField" promptText="Description" />
+            <Label fx:id="editCategoryDescriptionErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+        <Button text="Confirm" onAction="#confirmEditAddCategoryButton"/>
+        <Button text="Back" onAction="#back"/>
+    </VBox>
+    <!-- Delete Category -->
+    <VBox fx:id="deleteCategoryPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Admin Menu">
+            <font><Font name="Arial" size="24"/></font>
+        </Label>
+        <Label text="Delete Category">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <VBox>
+            <ComboBox fx:id="editAvailableCategoryComboBox" prefWidth="200" />
+            <Label fx:id="editAvailableCategoryErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+        <Button text="Confirm" onAction="#confirmDeleteCategoryButton"/>
         <Button text="Back" onAction="#back"/>
     </VBox>
 

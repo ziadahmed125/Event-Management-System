@@ -12,6 +12,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import models.Category;
+import models.Event;
 import models.Gender;
 import models.Room;
 
@@ -28,6 +30,8 @@ public class OrganizerMenu {
     // Profile
     @FXML private VBox profilePane;
     @FXML private VBox editProfilePane;
+    // Wallet
+    @FXML private VBox walletPane;
     // Dashboard
     @FXML private VBox showDashboardPane;
     @FXML private VBox availableRoomsPane;
@@ -64,11 +68,34 @@ public class OrganizerMenu {
     @FXML private Label passwordErrorLabel;
     @FXML private Label confirmPasswordErrorLabel;
 
+    // wallet
+    @FXML private Label userBalanceLabel;
+    @FXML private TextField addBalanceField;
+    @FXML private Label addBalanceErrorLabel;
+
     // dashboard
     @FXML private Label allAvailableRooms;
     @FXML private Label allEventsOrganizing;
-    @FXML private Label allEventsAttendees;
+    @FXML private Label allEventAttendees;
+    @FXML private ComboBox<String> availableEventsComboBox;
+    @FXML private Label availableEventsErrorLabel;
 
+    // create event
+    @FXML private TextField eventNameField;
+    @FXML private Label eventNameErrorLabel;
+    @FXML private TextField eventDescriptionField;
+    @FXML private Label eventDescriptionErrorLabel;
+    @FXML private ComboBox<Category> availableCategoriesComboBox;
+    @FXML private Label availableCategoriesErrorLabel;
+    @FXML private ComboBox<Room> availableOrganizerRoomsComboBox;
+    @FXML private Label availableRoomsOrganizingErrorLabel;
+    @FXML private TextField eventPriceField;
+    @FXML private Label eventPriceErrorLabel;
+
+    // rent room
+    @FXML private ComboBox<Room> availableRoomsComboBox;
+    @FXML private Label availableRoomsErrorLabel;
+    @FXML private Label roomInfoLabel;
 
     public void setLoggedInOrganizer(Organizer organizer) {
         this.loggedInOrganizer = organizer;
@@ -295,6 +322,47 @@ public class OrganizerMenu {
         switchPane(mainMenuPane);
     }
 
+    // wallet
+    public void walletButton(ActionEvent event) {
+        switchPane(walletPane);
+
+        userBalanceLabel.setText(loggedInOrganizer.getBalanceString());
+
+        // clearing validation styles
+        addBalanceField.getStyleClass().removeAll("error-field");
+        addBalanceErrorLabel.setVisible(false);
+
+        // clearing field
+        addBalanceField.setText("");
+    }
+    public void AddBalanceButton(ActionEvent event) {
+        // clearing validation styles
+        addBalanceField.getStyleClass().removeAll("error-field");
+        addBalanceErrorLabel.setVisible(false);
+
+        if (addBalanceField.getText().trim().isEmpty()) {
+            addBalanceField.getStyleClass().add("error-field");
+            addBalanceErrorLabel.setText("Must enter a value!");
+            addBalanceErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        try {
+            double value = Double.parseDouble(addBalanceField.getText().trim());
+        } catch (NumberFormatException e) {
+            addBalanceField.getStyleClass().add("error-field");
+            addBalanceErrorLabel.setText("Must be a number!");
+            addBalanceErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        loggedInOrganizer.addFunds(Double.parseDouble(addBalanceField.getText().trim()));
+        addBalanceField.setText("");
+        userBalanceLabel.setText(loggedInOrganizer.getBalanceString());
+    }
+
     // dashboard
     public void showDashboard(ActionEvent event) {
         switchPane(showDashboardPane);
@@ -306,17 +374,78 @@ public class OrganizerMenu {
     }
     public void eventsOrganizingButton(ActionEvent event) {
         switchPane(eventsOrganizingPane);
+
+        allEventsOrganizing.setText(loggedInOrganizer.getEventsOrganizingString());
     }
     public void eventsAttendeesButton(ActionEvent event) {
         switchPane(eventsAttendeesPane);
+
+        availableEventsComboBox.setItems(FXCollections.observableArrayList(loggedInOrganizer.getEventsOrganizingNames()));
+
+        availableEventsComboBox.getStyleClass().removeAll("error-field");
+        availableEventsErrorLabel.setVisible(false);
+    }
+    public void confirmEventButton(ActionEvent event) {
+        availableEventsComboBox.getStyleClass().removeAll("error-field");
+        availableEventsErrorLabel.setVisible(false);
+
+        if(availableEventsComboBox.getValue() == null || availableEventsComboBox.getValue().isEmpty()) {
+            availableEventsComboBox.getStyleClass().add("error-field");
+            availableEventsErrorLabel.setText("Must Select an Event");
+            availableEventsErrorLabel.setVisible(true);
+            return;
+        }
+
+        allEventAttendees.setText(loggedInOrganizer.getEventsOrganizingAttendees(availableEventsComboBox.getValue()));
     }
 
+    // event
     public void createEvent(ActionEvent event) {
         switchPane(createEventPane);
+
+        availableCategoriesComboBox.setItems(FXCollections.observableArrayList(Database.categoriesDB));
+        availableOrganizerRoomsComboBox.setItems(FXCollections.observableArrayList(loggedInOrganizer.getRoomsRented()));
+    }
+    public void confirmAddEventButton(ActionEvent event) {
+        // validate
+
+        Event e = new Event();
+        e.setName(eventNameField.getText().trim());
+        e.setDescription(eventDescriptionField.getText().trim());
+        e.setCategory(availableCategoriesComboBox.getValue());
+        e.setRoom(availableOrganizerRoomsComboBox.getValue());
+        e.setOrganizer(loggedInOrganizer);
+        e.setTicketPrice(Double.parseDouble(eventPriceField.getText().trim()));
+
+        Event.create(e);
     }
 
+    // rent room
     public void rentRoom(ActionEvent event) {
         switchPane(rentRoomPane);
+
+        availableRoomsComboBox.setItems(FXCollections.observableArrayList(Room.getAvailableRooms()));
+    }
+    public void confirmRoomButton(ActionEvent event) {
+        // validate
+
+        roomInfoLabel.setText(availableRoomsComboBox.getValue().getRoomInfo());
+    }
+    public void rentRoomButton(ActionEvent event) {
+        // validate balance
+
+        Room room = availableRoomsComboBox.getValue();
+
+        // validate funds
+
+        loggedInOrganizer.deductFunds(room.getPrice());
+        loggedInOrganizer.setRoomsRented(room);
+        Room.updateRoomAvailability(room.getRoomId(), false);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Room rented successfully!");
+        alert.showAndWait();
+
+        switchPane(mainMenuPane);
     }
 
     // logout

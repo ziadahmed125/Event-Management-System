@@ -10,8 +10,36 @@
            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="controllers.menus.AdminMenu" stylesheets="@/css/style.css">
 
+    <VBox fx:id="setRolePane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Admin Menu">
+            <font><Font name="Arial" size="24"/></font>
+        </Label>
+        <Label text="Role">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <VBox spacing="2">
+            <TextField fx:id="setRoleField" promptText="Set Role" />
+            <Label fx:id="setRoleErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+        <Button text="Confirm Role" onAction="#confirmRole"/>
+    </VBox>
+
+    <VBox fx:id="setWorkingHoursPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Admin Menu">
+            <font><Font name="Arial" size="24"/></font>
+        </Label>
+        <Label text="Working Hours">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <VBox spacing="2">
+            <TextField fx:id="setWorkingHoursField" promptText="Set Working Hours" />
+            <Label fx:id="setWorkingHoursLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+        <Button text="Confirm Working Hours" onAction="#confirmWorkingHours"/>
+    </VBox>
+
     <!-- Admin Menu Page -->
-    <VBox fx:id="mainMenuPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+    <VBox fx:id="mainMenuPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
         <Label text="Admin Menu">
             <font><Font name="Arial" size="24"/></font>
         </Label>
@@ -59,18 +87,8 @@
             <Label fx:id="usernameErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
         <HBox spacing="10" alignment="CENTER">
-            <!-- Gender ComboBox with Error Label -->
             <VBox spacing="2">
-                <ComboBox fx:id="genderComboBox" prefWidth="200">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="MALE" />
-                            <String fx:value="FEMALE" />
-                            <String fx:value="OTHER" />
-                        </FXCollections>
-                    </items>
-                </ComboBox>
-                <Label fx:id="genderErrorLabel" visible="false" styleClass="error-label"/>
+                <ComboBox fx:id="genderComboBox" prefWidth="200" prefHeight="25" />
             </VBox>
 
             <VBox spacing="2">

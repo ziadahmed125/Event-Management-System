@@ -21,7 +21,7 @@ public class Event implements Imanageable {
     private ArrayList<Attendee> attendees;
 
     public Event(String name, String description, Category category, Room room, Organizer organizer, double ticketPrice) {
-        this.eventId = "EVT" + idCounter++; // Auto-generated ID
+        this.eventId = "EVT#" + idCounter++; // Auto-generated ID
         this.name = name;
         this.description = description;
         this.category = category;
@@ -47,7 +47,7 @@ public class Event implements Imanageable {
                     + "\nOrganizer: " + event.getOrganizer().getUsername()
                     + "\nRoom: " + event.getRoom().getRoomId()
                     + "\nDate: " + event.getDateTime()
-                    + "\n-------------------";
+                    + "\n-------------------\n";
         }
 
         return string;
@@ -116,6 +116,16 @@ public class Event implements Imanageable {
 
     public void addAttendee(Attendee attendee) {
         attendees.add(attendee);
+    }
+
+    public static Event getEvent(String id) {
+        for(Event event : Database.eventsDB) {
+            if (event.getEventId().equals(id)) {
+                return event;
+            }
+        }
+
+        return null;
     }
 
     // Getters

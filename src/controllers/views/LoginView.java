@@ -22,8 +22,6 @@ public class LoginView {
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
 
-    @FXML private Label emailErrorLabel;
-    @FXML private Label passwordErrorLabel;
     @FXML private Label loginErrorLabel;
 
     @FXML private RadioButton attendeeRadio;
@@ -37,6 +35,8 @@ public class LoginView {
         attendeeRadio.setToggleGroup(roleToggleGroup);
         organizerRadio.setToggleGroup(roleToggleGroup);
         adminRadio.setToggleGroup(roleToggleGroup);
+
+        attendeeRadio.setSelected(true); // default selection
     }
 
     @FXML
@@ -46,42 +46,12 @@ public class LoginView {
         emailField.getStyleClass().removeAll("error-field");
         passwordField.getStyleClass().removeAll("error-field");
 
-        emailErrorLabel.setVisible(false);
-        passwordErrorLabel.setVisible(false);
         loginErrorLabel.setVisible(false);
-
-        // Email
-        String email = emailField.getText().trim();
-        if (email.isEmpty()) {
-            emailField.getStyleClass().add("error-field");
-            emailErrorLabel.setText("Email is required!");
-            emailErrorLabel.setVisible(true);
-            valid = false;
-        } else if (!email.contains("@")) {
-            emailField.getStyleClass().add("error-field");
-            emailErrorLabel.setText("Invalid format!");
-            emailErrorLabel.setVisible(true);
-            valid = false;
-        }
-
-        // Password
-        String password = passwordField.getText();
-        if (password.trim().isEmpty()) {
-            passwordField.getStyleClass().add("error-field");
-            passwordErrorLabel.setText("Password is required!");
-            passwordErrorLabel.setVisible(true);
-            valid = false;
-        } else if (password.length() < 8) {
-            passwordField.getStyleClass().add("error-field");
-            passwordErrorLabel.setText("Password must be over 8 characters!");
-            passwordErrorLabel.setVisible(true);
-            valid = false;
-        }
 
         // check credentials
         RadioButton selectedRadio = (RadioButton) roleToggleGroup.getSelectedToggle();
         if (selectedRadio != null) {
-            String selectedRole = selectedRadio.getText();
+            String selectedRole = selectedRadio.getText().trim();
             String enteredEmail = emailField.getText().trim();
             String enteredPassword = passwordField.getText().trim();
 

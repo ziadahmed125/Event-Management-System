@@ -15,7 +15,7 @@ public class Organizer extends User {
     private String[] attendeesOfEvent;
 
     public Organizer(String firstName, String lastName, String username, Gender gender, LocalDate dateOfBirth, String address, String email, String password) {
-        super(firstName, lastName, username, gender, dateOfBirth, address,email, password);
+        super(firstName, lastName, username, gender, dateOfBirth, address, email, password);
     }
 
     public void createEvent() {
@@ -63,11 +63,6 @@ public class Organizer extends User {
         super.displayProfile();
     }
 
-    public void editProfile() {
-        super.editProfile();
-        System.out.println("Profile updated successfully!");
-    }
-
     public static boolean usernameExists(String username) {
         return Database.organizersDB.stream()
                 .filter(o -> o.getUsername() != null)
@@ -76,12 +71,13 @@ public class Organizer extends User {
 
     public static Organizer getLoggedInUser(String email, String password) {
         for (Organizer o : Database.organizersDB) {
-            if (o.getEmail() != null && o.getPassword() != null &&
-                    o.getEmail().equalsIgnoreCase(email) &&
-                    o.getPassword().equals(password)) {
+            if ((o.getEmail() != null && o.getPassword() != null) &&
+                    (o.getEmail().equalsIgnoreCase(email) &&
+                    o.getPassword().equals(password))) {
                 return o;
             }
         }
+
         return null;
     }
 

@@ -8,3 +8,13 @@
     -fx-border-color: red;
     -fx-border-width: 2px;
 }
+
+.error-login {
+    -fx-text-fill: red;
+    -fx-text-size: 10px;
+    -fx-padding: 2 0 0 2;
+}
+
+.combo-box .list-cell {
+    -fx-font-size: 10px;
+}

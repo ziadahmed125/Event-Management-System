@@ -11,7 +11,7 @@
            fx:controller="controllers.menus.OrganizerMenu" stylesheets="@/css/style.css">
 
     <!-- Organizer Menu Page -->
-    <VBox fx:id="mainMenuPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+    <VBox fx:id="mainMenuPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
         <Label text="Organizer Menu">
             <font><Font size="24"/></font>
         </Label>
@@ -59,18 +59,8 @@
             <Label fx:id="usernameErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
         <HBox spacing="10" alignment="CENTER">
-            <!-- Gender ComboBox with Error Label -->
             <VBox spacing="2">
-                <ComboBox fx:id="genderComboBox" prefWidth="200">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="MALE" />
-                            <String fx:value="FEMALE" />
-                            <String fx:value="OTHER" />
-                        </FXCollections>
-                    </items>
-                </ComboBox>
-                <Label fx:id="genderErrorLabel" visible="false" styleClass="error-label"/>
+                <ComboBox fx:id="genderComboBox" prefWidth="200" prefHeight="25" />
             </VBox>
 
             <VBox spacing="2">
@@ -116,7 +106,7 @@
         <Button text="Events Attendees" onAction="#eventsAttendeesButton"/>
         <Button text="Back" onAction="#back"/>
     </VBox>
-    <VBox fx:id="availableRoomsPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+    <VBox fx:id="availableRoomsPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
         <Label text="Attendee Menu">
             <font><Font size="24"/></font>
         </Label>
@@ -126,7 +116,7 @@
         <Label fx:id="allAvailableRooms"/>
         <Button text="Back" onAction="#back"/>
     </VBox>
-    <VBox fx:id="eventsOrganizingPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+    <VBox fx:id="eventsOrganizingPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
         <Label text="Attendee Menu">
             <font><Font size="24"/></font>
         </Label>
@@ -136,7 +126,7 @@
         <Label fx:id="allEventsOrganizing"/>
         <Button text="Back" onAction="#back"/>
     </VBox>
-    <VBox fx:id="eventsAttendeesPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+    <VBox fx:id="eventsAttendeesPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
         <Label text="Attendee Menu">
             <font><Font size="24"/></font>
         </Label>
@@ -147,11 +137,11 @@
         <Button text="Back" onAction="#back"/>
     </VBox>
 
-    <VBox fx:id="createEventPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+    <VBox fx:id="createEventPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
 
     </VBox>
 
-    <VBox fx:id="rentRoomPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+    <VBox fx:id="rentRoomPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
 
     </VBox>
 </StackPane>

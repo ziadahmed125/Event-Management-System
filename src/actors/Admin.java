@@ -10,7 +10,9 @@ public class Admin extends User {
     private int workingHours;
 
     public Admin(String firstName, String lastName, String username, Gender gender, LocalDate dateOfBirth, String address,String email, String password) {
-        super(firstName, lastName, username, gender, dateOfBirth, address,email, password);
+        super(firstName, lastName, username, gender, dateOfBirth, address, email, password);
+        this.role = "null";
+        this.workingHours = 0;
     }
 
     @Override
@@ -68,34 +70,16 @@ public class Admin extends User {
 
     public static Admin getLoggedInUser(String email, String password) {
         for (Admin admin : Database.adminsDB) {
-            if (admin.getEmail() != null && admin.getPassword() != null &&
-                    admin.getEmail().equalsIgnoreCase(email) &&
-                    admin.getPassword().equals(password)) {
+            if ((admin.getEmail() != null && admin.getPassword() != null) &&
+                    (admin.getEmail().equalsIgnoreCase(email) &&
+                    admin.getPassword().equals(password))) {
                 return admin;
             }
         }
+
         return null;
     }
 
-//    public String showEvents() {
-//        if (Database.eventsDB.isEmpty()) {
-//            return "No events scheduled.";
-//        }
-//
-//        String string = "";
-//        int count = 0;
-//        for (Event event : Database.eventsDB) {
-//            string += "Event #" + ++count
-//                    + "\nID: " + event.getEventId()
-//                    + "\nName: " + event.getName()
-//                    + "\nOrganizer: " + event.getOrganizer().getUsername()
-//                    + "\nRoom: " + event.getRoom().getRoomId()
-//                    + "\nDate: " + event.getDateTime()
-//                    + "\n-------------------";
-//        }
-//
-//        return string;
-//    }
     public String showOrganizers() {
         if (Database.organizersDB.isEmpty()) {
             return "No Organizers registered.";

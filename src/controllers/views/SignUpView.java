@@ -4,6 +4,7 @@ import actors.*;
 
 import core.Database;
 import core.Utility;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -17,7 +18,7 @@ public class SignUpView {
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
     @FXML private TextField usernameField;
-    @FXML private ComboBox genderComboBox;
+    @FXML private ComboBox<Gender> genderComboBox;
     @FXML private DatePicker dobField;
     @FXML private TextField addressField;
     @FXML private TextField emailField;
@@ -46,6 +47,11 @@ public class SignUpView {
         attendeeRadio.setToggleGroup(roleToggleGroup);
         organizerRadio.setToggleGroup(roleToggleGroup);
         adminRadio.setToggleGroup(roleToggleGroup);
+
+        // default selection
+        attendeeRadio.setSelected(true);
+        genderComboBox.setItems(FXCollections.observableArrayList(Gender.values()));
+        genderComboBox.setValue(Gender.Male);
     }
 
     @FXML
@@ -72,6 +78,7 @@ public class SignUpView {
         // Username
         if (usernameField.getText().trim().isEmpty()) {
             usernameField.getStyleClass().add("error-field");
+            usernameErrorLabel.getStyleClass().add("error-label");
             usernameErrorLabel.setText("Username is required!");
             usernameErrorLabel.setVisible(true);
             valid = false;
@@ -94,13 +101,6 @@ public class SignUpView {
                 usernameErrorLabel.setVisible(true);
                 valid = false;
             }
-        }
-
-        // Gender
-        if(genderComboBox.getValue() == null) {
-            genderComboBox.getStyleClass().add("error-field");
-            genderErrorLabel.setVisible(true);
-            valid = false;
         }
 
         // Date of Birth
@@ -191,7 +191,6 @@ public class SignUpView {
         firstNameErrorLabel.setVisible(false);
         lastNameErrorLabel.setVisible(false);
         usernameErrorLabel.setVisible(false);
-        genderErrorLabel.setVisible(false);
         dobErrorLabel.setVisible(false);
         addressErrorLabel.setVisible(false);
         emailErrorLabel.setVisible(false);
@@ -209,7 +208,7 @@ public class SignUpView {
         String email = emailField.getText().trim();
         String password = passwordField.getText();
         String address = addressField.getText().trim();
-        Gender gender = Gender.valueOf(genderComboBox.getValue().toString().toUpperCase());
+        Gender gender = genderComboBox.getValue();
         LocalDate dob = dobField.getValue();
 
         RadioButton selectedRadio = (RadioButton) roleToggleGroup.getSelectedToggle();

@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.RadioButton?>
 
-<VBox alignment="CENTER" prefHeight="580.0" prefWidth="350.0" spacing="20"
+<VBox alignment="CENTER" prefHeight="580.0" prefWidth="350.0" spacing="16"
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx"
       fx:controller="controllers.views.LoginView" stylesheets="@/css/style.css">
 
@@ -31,18 +31,12 @@
 
     <!-- Fields -->
     <VBox alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
-        <VBox spacing="2">
-            <TextField fx:id="emailField" promptText="Email" />
-            <Label fx:id="emailErrorLabel" visible="false" styleClass="error-label"/>
-        </VBox>
+        <TextField fx:id="emailField" promptText="Email" />
 
-        <VBox spacing="2">
-            <PasswordField fx:id="passwordField" promptText="Password" />
-            <Label fx:id="passwordErrorLabel" visible="false" styleClass="error-label"/>
-        </VBox>
+        <PasswordField fx:id="passwordField" promptText="Password" />
     </VBox>
 
-    <Label fx:id="loginErrorLabel" text = "Invalid credentials!" visible="false" styleClass="error-label"/>
+    <Label fx:id="loginErrorLabel" text = "Invalid credentials!" visible="false" styleClass="error-login" />
 
     <!-- Login Button -->
     <Button text="Login" onAction="#handleLogin" defaultButton="true"/>

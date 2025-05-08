@@ -6,7 +6,7 @@
 
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<VBox alignment="CENTER" prefHeight="580.0" prefWidth="350.0" spacing="20"
+<VBox alignment="CENTER" prefHeight="580.0" prefWidth="350.0" spacing="16"
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx"
       fx:controller="controllers.views.SignUpView" stylesheets="@/css/style.css">
 
@@ -38,29 +38,20 @@
             </VBox>
         </HBox>
 
+        <!-- Username -->
         <VBox spacing="2">
             <TextField fx:id="usernameField" promptText="Username" />
             <Label fx:id="usernameErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
 
+        <!-- Gender and DOB -->
         <HBox spacing="10" alignment="CENTER">
-            <!-- Gender ComboBox with Error Label -->
             <VBox spacing="2">
-                <ComboBox fx:id="genderComboBox" prefWidth="200" styleClass="error-label">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Male" />
-                            <String fx:value="Female" />
-                            <String fx:value="Other" />
-                        </FXCollections>
-                    </items>
-                </ComboBox>
-                <Label fx:id="genderErrorLabel" text = "Gender is required!" visible="false" styleClass="error-label"/>
+                <ComboBox fx:id="genderComboBox" prefWidth="200" prefHeight="25" />
             </VBox>
 
-            <!-- Date of Birth Field with Error Label -->
             <VBox spacing="2">
-                <DatePicker fx:id="dobField" prefWidth="200" promptText="Date of Birth" />
+                <DatePicker fx:id="dobField" prefWidth="200" promptText="DOB" />
                 <Label fx:id="dobErrorLabel" visible="false" styleClass="error-label"/>
             </VBox>
         </HBox>

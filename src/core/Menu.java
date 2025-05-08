@@ -53,7 +53,7 @@ public class Menu {
 
             switch (choice) {
                 case 1 -> attendee.displayProfile();
-                case 2 -> attendee.editProfile();
+//                case 2 -> attendee.editProfile();
                 case 3 -> attendee.displayDashboard();
                 case 4 -> {
                     System.out.println("Logging out...");
@@ -83,7 +83,7 @@ public class Menu {
 
             switch (choice) {
                 case 1 -> organizer.displayProfile();
-                case 2 -> organizer.editProfile();
+//                case 2 -> organizer.editProfile();
                 case 3 -> organizer.createEvent();
                 case 4 -> Room.availableRooms();
                 case 5 -> organizer.showDashboard();

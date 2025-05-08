@@ -4,6 +4,7 @@ import actors.Admin;
 import actors.Organizer;
 import core.Database;
 import core.Utility;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -48,7 +49,7 @@ public class OrganizerMenu {
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
     @FXML private TextField usernameField;
-    @FXML private ComboBox genderComboBox;
+    @FXML private ComboBox<Gender> genderComboBox;
     @FXML private DatePicker dobField;
     @FXML private TextField addressField;
     @FXML private TextField emailField;
@@ -57,7 +58,6 @@ public class OrganizerMenu {
     @FXML private Label firstNameErrorLabel;
     @FXML private Label lastNameErrorLabel;
     @FXML private Label usernameErrorLabel;
-    @FXML private Label genderErrorLabel;
     @FXML private Label dobErrorLabel;
     @FXML private Label addressErrorLabel;
     @FXML private Label emailErrorLabel;
@@ -72,6 +72,8 @@ public class OrganizerMenu {
 
     public void setLoggedInOrganizer(Organizer organizer) {
         this.loggedInOrganizer = organizer;
+
+        switchPane(mainMenuPane);
     }
 
     private void switchPane(Pane target) {
@@ -81,6 +83,11 @@ public class OrganizerMenu {
         }
         target.setVisible(true);
         target.setManaged(true);
+    }
+
+    @FXML
+    public void initialize() {
+        genderComboBox.setItems(FXCollections.observableArrayList(Gender.values()));
     }
 
     public void back(ActionEvent event) {
@@ -100,7 +107,8 @@ public class OrganizerMenu {
         firstNameField.setPromptText(loggedInOrganizer.getFirstName());
         lastNameField.setPromptText(loggedInOrganizer.getLastName());
         usernameField.setPromptText(loggedInOrganizer.getUsername());
-        dobField.setPromptText(loggedInOrganizer.getDateOfBirth().toString());
+        genderComboBox.setValue(loggedInOrganizer.getGender());
+        dobField.setValue(loggedInOrganizer.getDateOfBirth());
         addressField.setPromptText(loggedInOrganizer.getAddress());
         emailField.setPromptText(loggedInOrganizer.getEmail());
         passwordField.setPromptText("New Password");
@@ -149,15 +157,6 @@ public class OrganizerMenu {
                 usernameErrorLabel.setVisible(true);
                 valid = false;
             }
-        }
-
-        // Gender
-        if(genderComboBox.getValue() == null);
-        else if(Gender.valueOf(genderComboBox.getValue().toString().toUpperCase()).equals(loggedInOrganizer.getGender())) {
-            genderComboBox.getStyleClass().add("error-field");
-            genderErrorLabel.setText("Same Gender!");
-            genderErrorLabel.setVisible(true);
-            valid = false;
         }
 
         // Date of Birth
@@ -251,7 +250,6 @@ public class OrganizerMenu {
         firstNameErrorLabel.setVisible(false);
         lastNameErrorLabel.setVisible(false);
         usernameErrorLabel.setVisible(false);
-        genderErrorLabel.setVisible(false);
         dobErrorLabel.setVisible(false);
         addressErrorLabel.setVisible(false);
         emailErrorLabel.setVisible(false);
@@ -273,8 +271,7 @@ public class OrganizerMenu {
         if (!usernameField.getText().trim().isEmpty())
             loggedInOrganizer.setUsername(usernameField.getText().trim());
 
-        if (genderComboBox.getValue() != null)
-            loggedInOrganizer.setGender(Gender.valueOf(genderComboBox.getValue().toString().toUpperCase()));
+        loggedInOrganizer.setGender(genderComboBox.getValue());
 
         if (dobField.getValue() != null)
             loggedInOrganizer.setDateOfBirth(dobField.getValue());
@@ -294,6 +291,7 @@ public class OrganizerMenu {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Profile updated successfully!");
         alert.showAndWait();
 
+        welcomeLabel.setText("Welcome, " + loggedInOrganizer.getFirstName() + " " + loggedInOrganizer.getLastName() + " (" + loggedInOrganizer.getUsername() + ") ");
         switchPane(mainMenuPane);
     }
 

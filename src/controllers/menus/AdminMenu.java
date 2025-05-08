@@ -3,6 +3,7 @@ package controllers.menus;
 import actors.Admin;
 import core.Database;
 import core.Utility;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -10,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import models.Category;
 import models.Event;
 import models.Gender;
 import models.Room;
@@ -23,6 +25,8 @@ public class AdminMenu {
     // Panes
     @FXML private StackPane rootPane;
     // Main Menu
+    @FXML private VBox setRolePane;
+    @FXML private VBox setWorkingHoursPane;
     @FXML private VBox mainMenuPane;
     // Profile
     @FXML private VBox profilePane;
@@ -40,6 +44,12 @@ public class AdminMenu {
     // Manage Categories
     @FXML private VBox manageCategoriesPane;
 
+    //
+    @FXML private TextField setRoleField;
+    @FXML private Label setRoleErrorLabel;
+    @FXML private TextField setWorkingHoursField;
+    @FXML private Label setWorkingHoursLabel;
+
     // Main Menu
     @FXML private Label welcomeLabel;
 
@@ -50,7 +60,7 @@ public class AdminMenu {
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
     @FXML private TextField usernameField;
-    @FXML private ComboBox genderComboBox;
+    @FXML private ComboBox<Gender> genderComboBox;
     @FXML private DatePicker dobField;
     @FXML private TextField addressField;
     @FXML private TextField emailField;
@@ -59,7 +69,6 @@ public class AdminMenu {
     @FXML private Label firstNameErrorLabel;
     @FXML private Label lastNameErrorLabel;
     @FXML private Label usernameErrorLabel;
-    @FXML private Label genderErrorLabel;
     @FXML private Label dobErrorLabel;
     @FXML private Label addressErrorLabel;
     @FXML private Label emailErrorLabel;
@@ -88,6 +97,10 @@ public class AdminMenu {
         this.loggedInAdmin = admin;
         welcomeLabel.setText("Welcome, " + admin.getFirstName() + " " + admin.getLastName() + " (" + admin.getUsername() + ") ");
         switchPane(mainMenuPane);
+
+        if (admin.getRole().equals("null")) {
+            switchPane(setRolePane);
+        } else switchPane(mainMenuPane);
     }
 
     private void switchPane(Pane target) {
@@ -97,6 +110,52 @@ public class AdminMenu {
         }
         target.setVisible(true);
         target.setManaged(true);
+    }
+
+    @FXML
+    public void initialize() {
+        genderComboBox.setItems(FXCollections.observableArrayList(Gender.values()));
+    }
+
+    public void confirmRole(ActionEvent event) {
+        setRoleField.getStyleClass().removeAll("error-field");
+        setRoleErrorLabel.setVisible(false);
+
+        if(setRoleField.getText().trim().isEmpty()) {
+            setRoleField.getStyleClass().add("error-field");
+            setRoleErrorLabel.setText("Filed can't be empty!");
+            setRoleField.setVisible(true);
+        }
+
+        loggedInAdmin.setRole(setRoleField.getText().trim());
+
+        if (loggedInAdmin.getWorkingHours() == 0){
+            switchPane(setWorkingHoursPane);
+        } else switchPane(mainMenuPane);
+    }
+
+    public void confirmWorkingHours(ActionEvent event) {
+        setWorkingHoursField.getStyleClass().removeAll("error-field");
+        setWorkingHoursLabel.setVisible(false);
+
+        if(setWorkingHoursField.getText().trim().isEmpty()) {
+            setWorkingHoursField.getStyleClass().add("error-field");
+            setWorkingHoursLabel.setText("Filed can't be empty!");
+            setRoleField.setVisible(true);
+        }
+
+        try {
+            Integer.parseInt(setWorkingHoursField.getText().trim());
+
+        } catch (NumberFormatException e) {
+            setWorkingHoursField.getStyleClass().add("error-field");
+            setWorkingHoursLabel.setText("Must be a number!");
+            setRoleField.setVisible(true);
+        }
+
+        loggedInAdmin.setWorkingHours(Integer.parseInt(setWorkingHoursField.getText().trim()));
+
+        switchPane(mainMenuPane);
     }
 
     public void back(ActionEvent event) {
@@ -116,7 +175,8 @@ public class AdminMenu {
         firstNameField.setPromptText(loggedInAdmin.getFirstName());
         lastNameField.setPromptText(loggedInAdmin.getLastName());
         usernameField.setPromptText(loggedInAdmin.getUsername());
-        dobField.setPromptText(loggedInAdmin.getDateOfBirth().toString());
+        genderComboBox.setValue(loggedInAdmin.getGender());
+        dobField.setValue(loggedInAdmin.getDateOfBirth());
         addressField.setPromptText(loggedInAdmin.getAddress());
         emailField.setPromptText(loggedInAdmin.getEmail());
         passwordField.setPromptText("New Password");
@@ -165,15 +225,6 @@ public class AdminMenu {
                 usernameErrorLabel.setVisible(true);
                 valid = false;
             }
-        }
-
-        // Gender
-        if(genderComboBox.getValue() == null);
-        else if(Gender.valueOf(genderComboBox.getValue().toString().toUpperCase()).equals(loggedInAdmin.getGender())) {
-            genderComboBox.getStyleClass().add("error-field");
-            genderErrorLabel.setText("Same Gender!");
-            genderErrorLabel.setVisible(true);
-            valid = false;
         }
 
         // Date of Birth
@@ -267,7 +318,6 @@ public class AdminMenu {
         firstNameErrorLabel.setVisible(false);
         lastNameErrorLabel.setVisible(false);
         usernameErrorLabel.setVisible(false);
-        genderErrorLabel.setVisible(false);
         dobErrorLabel.setVisible(false);
         addressErrorLabel.setVisible(false);
         emailErrorLabel.setVisible(false);
@@ -289,8 +339,7 @@ public class AdminMenu {
         if (!usernameField.getText().trim().isEmpty())
             loggedInAdmin.setUsername(usernameField.getText().trim());
 
-        if (genderComboBox.getValue() != null)
-            loggedInAdmin.setGender(Gender.valueOf(genderComboBox.getValue().toString().toUpperCase()));
+        loggedInAdmin.setGender(Gender.valueOf(genderComboBox.getValue().toString()));
 
         if (dobField.getValue() != null)
             loggedInAdmin.setDateOfBirth(dobField.getValue());
@@ -310,6 +359,7 @@ public class AdminMenu {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Profile updated successfully!");
         alert.showAndWait();
 
+        welcomeLabel.setText("Welcome, " + loggedInAdmin.getFirstName() + " " + loggedInAdmin.getLastName() + " (" + loggedInAdmin.getUsername() + ") ");
         switchPane(mainMenuPane);
     }
 

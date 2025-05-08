@@ -54,12 +54,6 @@ public abstract class User {
         );
     }
 
-    public void editProfile() {
-        setUsername(Utility.promptInput("Enter new username: "));
-        setEmail(Utility.promptInput("Enter new Email: "));
-        setDateOfBirth(Utility.promptDate("Enter new Date of Birth (yyyy-MM-dd)"));
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -88,7 +82,7 @@ public abstract class User {
         return email;
     }
     public void setEmail(String email) {
-        this.email = this.email;
+        this.email = email;
     }
     public String getPassword() {
         return password;

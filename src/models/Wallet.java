@@ -21,23 +21,11 @@ public class Wallet {
 
     // Add funds to the wallet
     public void addFunds(double amount) {
-        if (amount > 0) {
-            balance += amount;
-            System.out.println("Funds added: " + amount);
-        } else {
-            System.out.println("Invalid amount.");
-        }
+       balance += amount;
     }
 
     // Deduct funds from the wallet (for ticket purchase, etc.)
-    public boolean deductFunds(double amount) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            System.out.println("Funds deducted: " + amount);
-            return true;
-        } else {
-            System.out.println("Insufficient balance.");
-            return false;
-        }
+    public void deductFunds(double amount) {
+        balance -= amount;
     }
 }

@@ -4,6 +4,7 @@ import actors.Admin;
 import actors.Attendee;
 import core.Database;
 import core.Utility;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -26,9 +27,12 @@ public class AttendeeMenu {
     @FXML private VBox mainMenuPane;
     // Profile
     @FXML private VBox profilePane;
+    @FXML private VBox InterestPane;
+    @FXML private TextField addInterestField;
     @FXML private VBox editProfilePane;
     // Dashboard
-    @FXML private VBox showDashboardPane;
+    @FXML private VBox dashboardPane;
+    @FXML private VBox walletPane;
     @FXML private VBox eventsPane;
     @FXML private VBox buyTicketPane;
 
@@ -42,7 +46,7 @@ public class AttendeeMenu {
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
     @FXML private TextField usernameField;
-    @FXML private ComboBox genderComboBox;
+    @FXML private ComboBox<Gender> genderComboBox;
     @FXML private DatePicker dobField;
     @FXML private TextField addressField;
     @FXML private TextField emailField;
@@ -51,20 +55,28 @@ public class AttendeeMenu {
     @FXML private Label firstNameErrorLabel;
     @FXML private Label lastNameErrorLabel;
     @FXML private Label usernameErrorLabel;
-    @FXML private Label genderErrorLabel;
     @FXML private Label dobErrorLabel;
     @FXML private Label addressErrorLabel;
     @FXML private Label emailErrorLabel;
     @FXML private Label passwordErrorLabel;
     @FXML private Label confirmPasswordErrorLabel;
 
+    //Add Interest
+    @FXML private Label addInterestErrorLabel;
+
     // dashboard
     @FXML private Label allEvents;
     @FXML private TextField eventIdField;
     @FXML private Label eventIdErrorLabel;
+    @FXML private Label eventPriceLabel;
+    @FXML private Label buyTicketErrorLabel;
+    @FXML private Label userBalanceLabel;
+    @FXML private TextField addBalanceField;
+    @FXML private Label addBalanceErrorLabel;
 
     public void setLoggedInAttendee(Attendee attendee) {
         this.loggedInAttendee = attendee;
+
         welcomeLabel.setText("Welcome, " + attendee.getFirstName() + " " + attendee.getLastName() + " (" + attendee.getUsername() + ") ");
         switchPane(mainMenuPane);
     }
@@ -78,6 +90,11 @@ public class AttendeeMenu {
         target.setManaged(true);
     }
 
+    @FXML
+    public void initialize() {
+        genderComboBox.setItems(FXCollections.observableArrayList(Gender.values()));
+    }
+
     public void back(ActionEvent event) {
         switchPane(mainMenuPane);
     }
@@ -88,14 +105,57 @@ public class AttendeeMenu {
         profileInfo.setText(loggedInAttendee.toString());
     }
 
+    // add interest
+    public void addInterest (ActionEvent event) {
+        switchPane(InterestPane);
+
+        // clearing validation styles
+        addInterestField.getStyleClass().removeAll("error-field");
+        addInterestErrorLabel.setVisible(false);
+
+        // clearing field
+        addInterestField.setText("");
+    }
+    public void addInterestButton(ActionEvent event){
+        // clearing validation styles
+        addInterestField.getStyleClass().removeAll("error-field");
+        addInterestErrorLabel.setVisible(false);
+
+        if (addInterestField.getText().trim().isEmpty()) {
+            addInterestField.getStyleClass().add("error-field");
+            addInterestErrorLabel.setText("Can't be Empty!");
+            addInterestErrorLabel.setVisible(true);
+            return;
+        }
+
+        if (!loggedInAttendee.isInterestUnique(addInterestField.getText().trim())) {
+            addInterestField.getStyleClass().add("error-field");
+            addInterestErrorLabel.setText("Interest already Exists!");
+            addInterestErrorLabel.setVisible(true);
+            return;
+        }
+
+        if(loggedInAttendee.numOfInterests() == 4) {
+            addInterestField.getStyleClass().add("error-field");
+            addInterestErrorLabel.setText("Can't have more than 4 interests!");
+            addInterestErrorLabel.setVisible(true);
+            return;
+        }
+
+        loggedInAttendee.setInterests(addInterestField.getText().trim());
+
+        addInterestField.setText("");
+    }
+
     // edit profile
-    public void editProfile(ActionEvent event) {
+    public void editProfileButton(ActionEvent event) {
         switchPane(editProfilePane);
 
         firstNameField.setPromptText(loggedInAttendee.getFirstName());
         lastNameField.setPromptText(loggedInAttendee.getLastName());
         usernameField.setPromptText(loggedInAttendee.getUsername());
-        dobField.setPromptText(loggedInAttendee.getDateOfBirth().toString());
+        genderComboBox.setValue(loggedInAttendee.getGender());
+        dobField.setValue(loggedInAttendee.getDateOfBirth());
         addressField.setPromptText(loggedInAttendee.getAddress());
         emailField.setPromptText(loggedInAttendee.getEmail());
         passwordField.setPromptText("New Password");
@@ -144,15 +204,6 @@ public class AttendeeMenu {
                 usernameErrorLabel.setVisible(true);
                 valid = false;
             }
-        }
-
-        // Gender
-        if(genderComboBox.getValue() == null);
-        else if(Gender.valueOf(genderComboBox.getValue().toString().toUpperCase()).equals(loggedInAttendee.getGender())) {
-            genderComboBox.getStyleClass().add("error-field");
-            genderErrorLabel.setText("Same Gender!");
-            genderErrorLabel.setVisible(true);
-            valid = false;
         }
 
         // Date of Birth
@@ -246,7 +297,6 @@ public class AttendeeMenu {
         firstNameErrorLabel.setVisible(false);
         lastNameErrorLabel.setVisible(false);
         usernameErrorLabel.setVisible(false);
-        genderErrorLabel.setVisible(false);
         dobErrorLabel.setVisible(false);
         addressErrorLabel.setVisible(false);
         emailErrorLabel.setVisible(false);
@@ -268,8 +318,7 @@ public class AttendeeMenu {
         if (!usernameField.getText().trim().isEmpty())
             loggedInAttendee.setUsername(usernameField.getText().trim());
 
-        if (genderComboBox.getValue() != null)
-            loggedInAttendee.setGender(Gender.valueOf(genderComboBox.getValue().toString().toUpperCase()));
+        loggedInAttendee.setGender(genderComboBox.getValue());
 
         if (dobField.getValue() != null)
             loggedInAttendee.setDateOfBirth(dobField.getValue());
@@ -289,12 +338,53 @@ public class AttendeeMenu {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Profile updated successfully!");
         alert.showAndWait();
 
+        welcomeLabel.setText("Welcome, " + loggedInAttendee.getFirstName() + " " + loggedInAttendee.getLastName() + " (" + loggedInAttendee.getUsername() + ") ");
         switchPane(mainMenuPane);
     }
 
     // dashboard
     public void showDashboard(ActionEvent event) {
-        switchPane(showDashboardPane);
+        switchPane(dashboardPane);
+    }
+    // wallet
+    public void walletButton(ActionEvent event) {
+        switchPane(walletPane);
+
+        userBalanceLabel.setText(loggedInAttendee.getBalanceString());
+
+        // clearing validation styles
+        addBalanceField.getStyleClass().removeAll("error-field");
+        addBalanceErrorLabel.setVisible(false);
+
+        // clearing field
+        addBalanceField.setText("");
+    }
+    public void AddBalanceButton(ActionEvent event) {
+        // clearing validation styles
+        addBalanceField.getStyleClass().removeAll("error-field");
+        addBalanceErrorLabel.setVisible(false);
+
+        if (addBalanceField.getText().trim().isEmpty()) {
+            addBalanceField.getStyleClass().add("error-field");
+            addBalanceErrorLabel.setText("Must enter a value!");
+            addBalanceErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        try {
+            double value = Double.parseDouble(addBalanceField.getText().trim());
+        } catch (NumberFormatException e) {
+            addBalanceField.getStyleClass().add("error-field");
+            addBalanceErrorLabel.setText("Must be a number!");
+            addBalanceErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        loggedInAttendee.addFunds(Double.parseDouble(addBalanceField.getText().trim()));
+        addBalanceField.setText("");
+        userBalanceLabel.setText(loggedInAttendee.getBalanceString());
     }
     // show events
     public void eventsButton(ActionEvent event) {
@@ -304,9 +394,79 @@ public class AttendeeMenu {
     // buy ticket
     public void buyTicketsButton(ActionEvent event) {
         switchPane(buyTicketPane);
-    }
-    public void buyButton(ActionEvent event) {
 
+        // clearing validation styles
+        eventIdField.getStyleClass().removeAll("error-field");
+        eventIdErrorLabel.setVisible(false);
+        buyTicketErrorLabel.setVisible(false);
+
+        // clearing field
+        eventIdField.setText("");
+    }
+    public void eventIdButton(ActionEvent event) {
+        // clearing validation styles
+        eventIdField.getStyleClass().removeAll("error-field");
+        eventIdErrorLabel.setVisible(false);
+        buyTicketErrorLabel.setVisible(false);
+
+        if(eventIdField.getText().trim().isEmpty()) {
+            eventIdField.getStyleClass().add("error-field");
+            eventIdErrorLabel.setText("Can't be empty!");
+            eventIdErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        if(Event.getEvent(eventIdField.getText().trim()) == null) {
+            eventIdField.getStyleClass().add("error-field");
+            eventIdErrorLabel.setText("Event doesn't exist!");
+            eventIdErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        Event e = Event.getEvent(eventIdField.getText().trim());
+
+        eventPriceLabel.setText("Price = $" + e.getTicketPrice());
+    }
+    public void buyTicketButton(ActionEvent event) {
+        // clearing validation styles
+        eventIdField.getStyleClass().removeAll("error-field");
+        eventIdErrorLabel.setVisible(false);
+        buyTicketErrorLabel.setVisible(false);
+
+        if(eventIdField.getText().trim().isEmpty()) {
+            eventIdField.getStyleClass().add("error-field");
+            eventIdErrorLabel.setText("Can't be empty!");
+            eventIdErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        if(Event.getEvent(eventIdField.getText().trim()) == null) {
+            eventIdField.getStyleClass().add("error-field");
+            eventIdErrorLabel.setText("Event doesn't exist!");
+            eventIdErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        Event e = Event.getEvent(eventIdField.getText().trim());
+
+        if(e.getTicketPrice() > loggedInAttendee.getBalance()) {
+            buyTicketErrorLabel.setText("Not enough funds!");
+            buyTicketErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        loggedInAttendee.deductFunds(e.getTicketPrice());
+        loggedInAttendee.setTickets(e.getEventId());
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Ticket bought successfully!");
+        alert.showAndWait();
+
+        switchPane(mainMenuPane);
     }
 
     // logout

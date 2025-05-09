@@ -4,12 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<?import java.awt.Image?>
-<?import javafx.scene.image.ImageView?>
-
-
 
 
 <VBox alignment="CENTER" prefHeight="610.0" prefWidth="430.0" spacing="16"
@@ -33,7 +27,7 @@
     </HBox>
 
     <!-- Fields -->
-    <VBox alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+    <VBox alignment="CENTER" maxWidth="-Infinity" prefWidth="250" spacing="8">
         <!-- First and Last Name Fields -->
         <HBox spacing="10" alignment="CENTER">
             <VBox spacing="2">
@@ -94,97 +88,3 @@
         <Hyperlink text="Login" onAction="#switchToLogin" />
     </HBox>
 </VBox>
-
-
-
-
-
-
-
-
-<!--<VBox alignment="CENTER" prefHeight="630" prefWidth="450" spacing="16"-->
-<!--      xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx"-->
-<!--      fx:controller="controllers.views.SignUpView" stylesheets="@/css/style.css"-->
-<!--      styleClass="bodybgSignUp">-->
-
-<!--    &lt;!&ndash; Title &ndash;&gt;-->
-<!--    <Label text="Sign-Up" layoutX="100" layoutY="30" stylesheets="@/css/style.css"-->
-<!--           styleClass="white-text">-->
-<!--        <font>-->
-<!--            <Font name="Arial" size="40"/>-->
-<!--        </font>-->
-<!--    </Label>-->
-
-<!--    &lt;!&ndash; Role &ndash;&gt;-->
-<!--    <HBox spacing="10" alignment="CENTER">-->
-<!--        <RadioButton text="Attendee" fx:id="attendeeRadio" />-->
-<!--        <RadioButton text="Organizer" fx:id="organizerRadio" />-->
-<!--        <RadioButton text="Admin" fx:id="adminRadio" />-->
-<!--    </HBox>-->
-
-<!--    &lt;!&ndash; Fields &ndash;&gt;-->
-<!--    <VBox alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">-->
-<!--        &lt;!&ndash; First and Last Name Fields &ndash;&gt;-->
-<!--        <HBox spacing="10" alignment="CENTER">-->
-<!--            <VBox spacing="2">-->
-<!--                <TextField fx:id="firstNameField" promptText="First Name" />-->
-<!--                <Label fx:id="firstNameErrorLabel" text="First Name is required!" visible="false" styleClass="error-label"/>-->
-<!--            </VBox>-->
-<!--            <VBox spacing="2">-->
-<!--                <TextField fx:id="lastNameField" promptText="Last Name" />-->
-<!--                <Label fx:id="lastNameErrorLabel" text="Last Name is required!" visible="false" styleClass="error-label"/>-->
-<!--            </VBox>-->
-<!--        </HBox>-->
-
-<!--        &lt;!&ndash; Username &ndash;&gt;-->
-<!--        <VBox spacing="2">-->
-<!--            <TextField fx:id="usernameField" promptText="Username" />-->
-<!--            <Label fx:id="usernameErrorLabel" visible="false" styleClass="error-label"/>-->
-<!--        </VBox>-->
-
-<!--        &lt;!&ndash; Gender and DOB &ndash;&gt;-->
-<!--        <HBox spacing="10" alignment="CENTER">-->
-<!--            <VBox spacing="2">-->
-<!--                <ComboBox fx:id="genderComboBox" prefWidth="200" prefHeight="25" />-->
-<!--            </VBox>-->
-
-<!--            <VBox spacing="2">-->
-<!--                <DatePicker fx:id="dobField" prefWidth="200" promptText="DOB" />-->
-<!--                <Label fx:id="dobErrorLabel" visible="false" styleClass="error-label"/>-->
-<!--            </VBox>-->
-<!--        </HBox>-->
-
-<!--        <VBox spacing="2">-->
-<!--            <TextField fx:id="addressField" promptText="Address" />-->
-<!--            <Label fx:id="addressErrorLabel" text="Address is required!" visible="false" styleClass="error-label"/>-->
-<!--        </VBox>-->
-
-<!--        <VBox spacing="2">-->
-<!--            <TextField fx:id="emailField" promptText="Email" />-->
-<!--            <Label fx:id="emailErrorLabel" visible="false" styleClass="error-label"/>-->
-<!--        </VBox>-->
-
-<!--        <VBox spacing="2">-->
-<!--            <PasswordField fx:id="passwordField" promptText="Password" />-->
-<!--            <Label fx:id="passwordErrorLabel" visible="false" styleClass="error-label"/>-->
-<!--        </VBox>-->
-
-<!--        <VBox spacing="2">-->
-<!--            <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" />-->
-<!--            <Label fx:id="confirmPasswordErrorLabel" visible="false" styleClass="error-label"/>-->
-<!--        </VBox>-->
-
-<!--        <Button alignment="CENTER" onAction="#handleSignUp" text="Sign Up" defaultButton="true" />-->
-<!--    </VBox>-->
-
-<!--    &lt;!&ndash; Signup Button &ndash;&gt;-->
-
-<!-- -->
-
-
-<!--    &lt;!&ndash; Login Link &ndash;&gt;-->
-<!--    <HBox alignment="CENTER" spacing="5">-->
-<!--        <Label text="Already have an account?" />-->
-<!--        <Hyperlink text="Login" onAction="#switchToLogin" />-->
-<!--    </HBox>-->
-<!--</VBox>-->

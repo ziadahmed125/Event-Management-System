@@ -8,7 +8,7 @@
            styleClass="bodybgAttendeeMenu" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.menus.AttendeeMenu">
 
     <!-- Attendee Menu Page -->
-    <VBox fx:id="mainMenuPane" alignment="CENTER" managed="false" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false">
+    <VBox fx:id="mainMenuPane" alignment="CENTER" managed="false" maxWidth="-Infinity" prefWidth="200" spacing="20" visible="false">
         <Label text="Attendee Menu">
             <font><Font size="24" /></font>
         </Label>
@@ -105,7 +105,7 @@
     </VBox>
 
     <!-- Wallet -->
-    <VBox fx:id="walletPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
+    <VBox fx:id="walletPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="220" spacing="8">
         <Label text="Attendee Menu">
             <font><Font size="24" /></font>
         </Label>
@@ -129,7 +129,7 @@
     </VBox>
 
     <!-- Dashboard -->
-    <VBox fx:id="dashboardPane" alignment="CENTER" managed="false" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false">
+    <VBox fx:id="dashboardPane" alignment="CENTER" managed="false" maxWidth="-Infinity" prefWidth="200" spacing="20" visible="false">
         <Label text="Attendee Menu">
             <font><Font size="24" /></font>
         </Label>

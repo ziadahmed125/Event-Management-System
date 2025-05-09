@@ -10,7 +10,7 @@
            styleClass="bodybgOrganizerMenu">
 
     <!-- Organizer Menu Page -->
-    <VBox fx:id="mainMenuPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+    <VBox fx:id="mainMenuPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="20" visible="false" managed="false">
         <Label text="Organizer Menu">
             <font><Font size="24"/></font>
         </Label>
@@ -118,7 +118,7 @@
     </VBox>
 
     <!-- Dashboard -->
-    <VBox fx:id="showDashboardPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+    <VBox fx:id="showDashboardPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="20" visible="false" managed="false">
         <Label text="Organizer Menu">
             <font><Font size="24"/></font>
         </Label>
@@ -134,6 +134,7 @@
         <Label text="Organizer Menu">
             <font><Font size="24"/></font>
         </Label>
+
         <Label text="Available Rooms">
             <font><Font name="Arial" size="18"/></font>
         </Label>
@@ -169,7 +170,7 @@
     </VBox>
 
     <!-- Manage Event -->
-    <VBox fx:id="manageEventPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+    <VBox fx:id="manageEventPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="20" visible="false" managed="false">
         <Label text="Organizer Menu">
             <font><Font size="24"/></font>
         </Label>
@@ -189,22 +190,37 @@
             <font><Font name="Arial" size="18"/></font>
         </Label>
         <VBox spacing="2">
+            <Label text=" Event Name:">
+                <font><Font name="Arial" size="10"/></font>
+            </Label>
             <TextField fx:id="eventNameField" promptText="Name" />
             <Label fx:id="eventNameErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
         <VBox spacing="2">
+            <Label text=" Event Description:">
+                <font><Font name="Arial" size="10"/></font>
+            </Label>
             <TextField fx:id="eventDescriptionField" promptText="Description" />
             <Label fx:id="eventDescriptionErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
         <VBox>
+            <Label text=" Select Category:">
+                <font><Font name="Arial" size="10"/></font>
+            </Label>
             <ComboBox fx:id="availableCategoriesComboBox" prefWidth="200" />
             <Label fx:id="availableCategoriesErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
         <VBox>
+            <Label text=" Select Room(Must be Rented):">
+                <font><Font name="Arial" size="10"/></font>
+            </Label>
             <ComboBox fx:id="availableOrganizerRoomsComboBox" prefWidth="200" />
             <Label fx:id="availableRoomsOrganizingErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
         <VBox spacing="2">
+            <Label text=" Ticket Price:">
+                <font><Font name="Arial" size="10"/></font>
+            </Label>
             <TextField fx:id="eventPriceField" promptText="Price" />
             <Label fx:id="eventPriceErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
@@ -220,6 +236,9 @@
             <font><Font name="Arial" size="18"/></font>
         </Label>
         <VBox>
+            <Label text=" Select Event:">
+                <font><Font name="Arial" size="10"/></font>
+            </Label>
             <ComboBox fx:id="deleteEventComboBox" prefWidth="200" />
             <Label fx:id="deleteEventErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
@@ -237,10 +256,16 @@
         </Label>
         <HBox spacing="4">
             <VBox>
+                <Label text=" Select Room:">
+                    <font><Font name="Arial" size="10"/></font>
+                </Label>
                 <ComboBox fx:id="availableRoomsComboBox" prefWidth="125" prefHeight="25" />
                 <Label fx:id="availableRoomsErrorLabel" visible="false" styleClass="error-label"/>
             </VBox>
             <VBox>
+                <Label text="  ">
+                    <font><Font name="Arial" size="10"/></font>
+                </Label>
                 <Button onAction="#confirmRoomButton" text="Confirm" />
             </VBox>
         </HBox>

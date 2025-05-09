@@ -106,6 +106,8 @@ public class OrganizerMenu {
     public void setLoggedInOrganizer(Organizer organizer) {
         this.loggedInOrganizer = organizer;
 
+        welcomeLabel.setText("Welcome, " + loggedInOrganizer.getFirstName() + " " + loggedInOrganizer.getLastName() +
+                " (" + loggedInOrganizer.getUsername() + ") ");
         switchPane(mainMenuPane);
     }
 

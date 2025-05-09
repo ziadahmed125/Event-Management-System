@@ -1,6 +1,5 @@
 package controllers.menus;
 
-import actors.Admin;
 import actors.Attendee;
 import actors.User;
 import core.Database;

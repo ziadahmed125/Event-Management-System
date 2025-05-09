@@ -16,7 +16,7 @@
 }
 
 .combo-box .list-cell {
-    -fx-font-size: 10px;
+    -fx-font-size: 12px;
 }
 .white-text {
   -fx-font-family: "Segoe Ui";
@@ -143,7 +143,7 @@
     -fx-font-size: 12px;
     -fx-background-radius: 7;
     -fx-padding: 3 13;
-     -fx-opacity: 0.9;
+     -fx-opacity: 0.865;
      -fx-pref-width: 140px;
      -fx-pref-height: 19px;
 }

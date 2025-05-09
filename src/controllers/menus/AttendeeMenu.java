@@ -2,6 +2,7 @@ package controllers.menus;
 
 import actors.Admin;
 import actors.Attendee;
+import actors.User;
 import core.Database;
 import core.Utility;
 import javafx.collections.FXCollections;
@@ -35,6 +36,7 @@ public class AttendeeMenu {
     // Dashboard
     @FXML private VBox dashboardPane;
     @FXML private VBox eventsPane;
+    @FXML private VBox showTicket;
     @FXML private VBox buyTicketPane;
 
     // Main Menu
@@ -72,6 +74,7 @@ public class AttendeeMenu {
 
     // dashboard
     @FXML private Label allEvents;
+    @FXML private Label allTickets;
     @FXML private TextField eventIdField;
     @FXML private Label eventIdErrorLabel;
     @FXML private Label eventPriceLabel;
@@ -171,8 +174,8 @@ public class AttendeeMenu {
         clearValidationStyles();
 
         // First Name
-        if (firstNameField.getText().trim().isEmpty());
-        else if (firstNameField.getText().trim().equals(loggedInAttendee.getFirstName())) {
+        if (!firstNameField.getText().trim().isEmpty()
+                && firstNameField.getText().trim().equals(loggedInAttendee.getFirstName())) {
             firstNameField.getStyleClass().add("error-field");
             firstNameErrorLabel.setText("Same First Name!");
             firstNameErrorLabel.setVisible(true);
@@ -180,8 +183,8 @@ public class AttendeeMenu {
         }
 
         // Last Name
-        if (lastNameField.getText().trim().isEmpty());
-        else if (lastNameField.getText().trim().equals(loggedInAttendee.getLastName())) {
+        if (!lastNameField.getText().trim().isEmpty()
+                && lastNameField.getText().trim().equals(loggedInAttendee.getLastName())) {
             lastNameField.getStyleClass().add("error-field");
             lastNameErrorLabel.setText("Same Last Name!");
             lastNameErrorLabel.setVisible(true);
@@ -189,35 +192,29 @@ public class AttendeeMenu {
         }
 
         // Username
-        if (usernameField.getText().trim().isEmpty());
-        else if (usernameField.getText().trim().equals(loggedInAttendee.getUsername())) {
+        if (!usernameField.getText().trim().isEmpty()
+                && usernameField.getText().trim().equals(loggedInAttendee.getUsername())) {
             usernameField.getStyleClass().add("error-field");
             usernameErrorLabel.setText("Same Username!");
             usernameErrorLabel.setVisible(true);
             valid = false;
-        }
-        else if (usernameField != null) {
-            String enteredUsername = usernameField.getText().trim();
-
-            boolean exists = Admin.usernameExists(enteredUsername);
-
-            if (exists) {
-                usernameField.getStyleClass().add("error-field");
-                usernameErrorLabel.setText("Username already exists!");
-                usernameErrorLabel.setVisible(true);
-                valid = false;
-            }
+        } else if (!usernameField.getText().trim().isEmpty()
+                && User.usernameExists(usernameField.getText().trim())) {
+            usernameField.getStyleClass().add("error-field");
+            usernameErrorLabel.setText("Username already exists!");
+            usernameErrorLabel.setVisible(true);
+            valid = false;
         }
 
         // Date of Birth
-        if (dobField.getValue() == null);
-        else if (dobField.getValue().equals(loggedInAttendee.getDateOfBirth())) {
+        if (dobField.getValue() != null
+                && dobField.getValue().equals(loggedInAttendee.getDateOfBirth())) {
             dobField.getStyleClass().add("error-field");
             dobErrorLabel.setText("Same Date of Birth!");
             dobErrorLabel.setVisible(true);
             valid = false;
         }
-        else {
+        else if (dobField.getValue() != null) {
             if (dobField.getValue().isAfter(LocalDate.now())) {
                 dobField.getStyleClass().add("error-field");
                 dobErrorLabel.setText("Date can't be in the future!");
@@ -232,8 +229,8 @@ public class AttendeeMenu {
         }
 
         // Address
-        if (addressField.getText().trim().isEmpty());
-        else if (addressField.getText().trim().equals(loggedInAttendee.getAddress())) {
+        if (!addressField.getText().trim().isEmpty()
+                && addressField.getText().trim().equals(loggedInAttendee.getAddress())) {
             addressField.getStyleClass().add("error-field");
             addressErrorLabel.setText("Same address!");
             addressErrorLabel.setVisible(true);
@@ -242,18 +239,33 @@ public class AttendeeMenu {
 
         // Email
         String email = emailField.getText().trim();
-        if (email.isEmpty());
-        else if (email.equals(loggedInAttendee.getEmail())) {
+        if (!email.isEmpty()
+                && email.equals(loggedInAttendee.getEmail())) {
             emailField.getStyleClass().add("error-field");
             emailErrorLabel.setText("Same Email!");
             emailErrorLabel.setVisible(true);
             valid = false;
-        }
-        else if (!email.contains("@")) {
+        } else if (!email.isEmpty()
+                && User.emailExists(emailField.getText().trim())) {
+            emailField.getStyleClass().add("error-field");
+            emailErrorLabel.setText("Email already userExists!");
+            emailErrorLabel.setVisible(true);
+            valid = false;
+        } else if (!email.isEmpty()
+                && !email.contains("@")) {
             emailField.getStyleClass().add("error-field");
             emailErrorLabel.setText("Invalid format!");
             emailErrorLabel.setVisible(true);
             valid = false;
+        } else {
+            // regex to validate email format
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+            if (!email.matches(emailRegex)) {
+                emailField.getStyleClass().add("error-field");
+                emailErrorLabel.setText("Invalid email format!");
+                emailErrorLabel.setVisible(true);
+                valid = false;
+            }
         }
 
         // Password
@@ -433,6 +445,11 @@ public class AttendeeMenu {
 
         eventPriceLabel.setText("Price = $" + e.getTicketPrice());
     }
+    public void showTicketButton(ActionEvent event) {
+        switchPane(showTicket);
+
+        allTickets.setText(loggedInAttendee.getTickets());
+    }
     public void buyTicketButton(ActionEvent event) {
         // clearing validation styles
         eventIdField.getStyleClass().removeAll("error-field");
@@ -465,6 +482,7 @@ public class AttendeeMenu {
         }
 
         loggedInAttendee.deductFunds(e.getTicketPrice());
+        e.getOrganizer().addFunds(e.getTicketPrice());
         e.addAttendee(loggedInAttendee);
         loggedInAttendee.setTickets(e.getEventId());
 

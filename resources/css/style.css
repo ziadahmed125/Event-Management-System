@@ -23,8 +23,6 @@
   -fx-text-fill: #767676 ;
 }
 
-
-
 .bodybgSignUp{
  -fx-background-image: url("/backgrounds/SignUp.png");
  -fx-background-repeat: no-repeat;

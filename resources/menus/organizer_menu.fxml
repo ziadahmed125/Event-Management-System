@@ -25,7 +25,7 @@
 
     <!-- Profile Page -->
     <VBox fx:id="profilePane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
-        <Label text="Attendee Menu">
+        <Label text="Organizer Menu">
             <font><Font name="Arial" size="24"/></font>
         </Label>
         <Label text="Profile Info">
@@ -38,7 +38,7 @@
 
     <!-- Edit Profile -->
     <VBox fx:id="editProfilePane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
-        <Label text="Attendee Menu">
+        <Label text="Organizer Menu">
             <font><Font name="Arial" size="24"/></font>
         </Label>
         <Label text="Edit Profile Info">
@@ -95,7 +95,7 @@
 
     <!-- Wallet -->
     <VBox fx:id="walletPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8">
-        <Label text="Attendee Menu">
+        <Label text="Organizer Menu">
             <font><Font size="24" /></font>
         </Label>
         <Label text="Wallet">
@@ -119,7 +119,7 @@
 
     <!-- Dashboard -->
     <VBox fx:id="showDashboardPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
-        <Label text="Attendee Menu">
+        <Label text="Organizer Menu">
             <font><Font size="24"/></font>
         </Label>
         <Label text="Dashboard">
@@ -131,7 +131,7 @@
         <Button text="Back" onAction="#back"/>
     </VBox>
     <VBox fx:id="availableRoomsPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
-        <Label text="Attendee Menu">
+        <Label text="Organizer Menu">
             <font><Font size="24"/></font>
         </Label>
         <Label text="Available Rooms">
@@ -141,7 +141,7 @@
         <Button text="Back" onAction="#back"/>
     </VBox>
     <VBox fx:id="eventsOrganizingPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
-        <Label text="Attendee Menu">
+        <Label text="Organizer Menu">
             <font><Font size="24"/></font>
         </Label>
         <Label text="Events Organizing">
@@ -150,8 +150,8 @@
         <Label fx:id="allEventsOrganizing"/>
         <Button text="Back" onAction="#back"/>
     </VBox>
-    <VBox fx:id="eventsAttendeesPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
-        <Label text="Attendee Menu">
+    <VBox fx:id="eventsOrganizerPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Organizer Menu">
             <font><Font size="24"/></font>
         </Label>
         <Label text="Events Attendees">
@@ -170,7 +170,7 @@
 
     <!-- Create Event -->
     <VBox fx:id="createEventPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
-        <Label text="Attendee Menu">
+        <Label text="Organizer Menu">
             <font><Font size="24"/></font>
         </Label>
         <Label text="Create Event">
@@ -202,7 +202,7 @@
 
     <!-- Rent Room -->
     <VBox fx:id="rentRoomPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
-        <Label text="Attendee Menu">
+        <Label text="Organizer Menu">
             <font><Font size="24"/></font>
         </Label>
         <Label text="Rent Room">

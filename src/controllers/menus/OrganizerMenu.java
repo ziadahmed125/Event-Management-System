@@ -1,7 +1,7 @@
 package controllers.menus;
 
-import actors.Admin;
 import actors.Organizer;
+import actors.User;
 import core.Database;
 import core.Utility;
 import javafx.collections.FXCollections;
@@ -36,7 +36,7 @@ public class OrganizerMenu {
     @FXML private VBox showDashboardPane;
     @FXML private VBox availableRoomsPane;
     @FXML private VBox eventsOrganizingPane;
-    @FXML private VBox eventsAttendeesPane;
+    @FXML private VBox eventsOrganizerPane;
     // Create Event
     @FXML private VBox createEventPane;
     // Rent Room
@@ -148,8 +148,8 @@ public class OrganizerMenu {
         clearValidationStyles();
 
         // First Name
-        if (firstNameField.getText().trim().isEmpty());
-        else if (firstNameField.getText().trim().equals(loggedInOrganizer.getFirstName())) {
+        if (!firstNameField.getText().trim().isEmpty()
+                && firstNameField.getText().trim().equals(loggedInOrganizer.getFirstName())) {
             firstNameField.getStyleClass().add("error-field");
             firstNameErrorLabel.setText("Same First Name!");
             firstNameErrorLabel.setVisible(true);
@@ -157,8 +157,8 @@ public class OrganizerMenu {
         }
 
         // Last Name
-        if (lastNameField.getText().trim().isEmpty());
-        else if (lastNameField.getText().trim().equals(loggedInOrganizer.getLastName())) {
+        if (!lastNameField.getText().trim().isEmpty()
+                && lastNameField.getText().trim().equals(loggedInOrganizer.getLastName())) {
             lastNameField.getStyleClass().add("error-field");
             lastNameErrorLabel.setText("Same Last Name!");
             lastNameErrorLabel.setVisible(true);
@@ -166,35 +166,29 @@ public class OrganizerMenu {
         }
 
         // Username
-        if (usernameField.getText().trim().isEmpty());
-        else if (usernameField.getText().trim().equals(loggedInOrganizer.getUsername())) {
+        if (!usernameField.getText().trim().isEmpty()
+                && usernameField.getText().trim().equals(loggedInOrganizer.getUsername())) {
             usernameField.getStyleClass().add("error-field");
             usernameErrorLabel.setText("Same Username!");
             usernameErrorLabel.setVisible(true);
             valid = false;
-        }
-        else if (usernameField != null) {
-            String enteredUsername = usernameField.getText().trim();
-
-            boolean exists = Admin.usernameExists(enteredUsername);
-
-            if (exists) {
-                usernameField.getStyleClass().add("error-field");
-                usernameErrorLabel.setText("Username already exists!");
-                usernameErrorLabel.setVisible(true);
-                valid = false;
-            }
+        } else if (!usernameField.getText().trim().isEmpty()
+                && User.usernameExists(usernameField.getText().trim())) {
+            usernameField.getStyleClass().add("error-field");
+            usernameErrorLabel.setText("Username already exists!");
+            usernameErrorLabel.setVisible(true);
+            valid = false;
         }
 
         // Date of Birth
-        if (dobField.getValue() == null);
-        else if (dobField.getValue().equals(loggedInOrganizer.getDateOfBirth())) {
+        if (dobField.getValue() != null
+                && dobField.getValue().equals(loggedInOrganizer.getDateOfBirth())) {
             dobField.getStyleClass().add("error-field");
             dobErrorLabel.setText("Same Date of Birth!");
             dobErrorLabel.setVisible(true);
             valid = false;
         }
-        else {
+        else if (dobField.getValue() != null) {
             if (dobField.getValue().isAfter(LocalDate.now())) {
                 dobField.getStyleClass().add("error-field");
                 dobErrorLabel.setText("Date can't be in the future!");
@@ -209,8 +203,8 @@ public class OrganizerMenu {
         }
 
         // Address
-        if (addressField.getText().trim().isEmpty());
-        else if (addressField.getText().trim().equals(loggedInOrganizer.getAddress())) {
+        if (!addressField.getText().trim().isEmpty()
+                && addressField.getText().trim().equals(loggedInOrganizer.getAddress())) {
             addressField.getStyleClass().add("error-field");
             addressErrorLabel.setText("Same address!");
             addressErrorLabel.setVisible(true);
@@ -219,18 +213,33 @@ public class OrganizerMenu {
 
         // Email
         String email = emailField.getText().trim();
-        if (email.isEmpty());
-        else if (email.equals(loggedInOrganizer.getEmail())) {
+        if (!email.isEmpty()
+                && email.equals(loggedInOrganizer.getEmail())) {
             emailField.getStyleClass().add("error-field");
             emailErrorLabel.setText("Same Email!");
             emailErrorLabel.setVisible(true);
             valid = false;
-        }
-        else if (!email.contains("@")) {
+        } else if (!email.isEmpty()
+                && User.emailExists(emailField.getText().trim())) {
+            emailField.getStyleClass().add("error-field");
+            emailErrorLabel.setText("Email already userExists!");
+            emailErrorLabel.setVisible(true);
+            valid = false;
+        } else if (!email.isEmpty()
+                && !email.contains("@")) {
             emailField.getStyleClass().add("error-field");
             emailErrorLabel.setText("Invalid format!");
             emailErrorLabel.setVisible(true);
             valid = false;
+        } else {
+            // regex to validate email format
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+            if (!email.matches(emailRegex)) {
+                emailField.getStyleClass().add("error-field");
+                emailErrorLabel.setText("Invalid email format!");
+                emailErrorLabel.setVisible(true);
+                valid = false;
+            }
         }
 
         // Password
@@ -378,7 +387,7 @@ public class OrganizerMenu {
         allEventsOrganizing.setText(loggedInOrganizer.getEventsOrganizingString());
     }
     public void eventsAttendeesButton(ActionEvent event) {
-        switchPane(eventsAttendeesPane);
+        switchPane(eventsOrganizerPane);
 
         availableEventsComboBox.setItems(FXCollections.observableArrayList(loggedInOrganizer.getEventsOrganizingNames()));
 

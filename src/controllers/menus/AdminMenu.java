@@ -1,6 +1,7 @@
 package controllers.menus;
 
 import actors.Admin;
+import actors.User;
 import core.Database;
 import core.Utility;
 import javafx.collections.FXCollections;
@@ -235,9 +236,8 @@ public class AdminMenu {
             usernameErrorLabel.setText("Same Username!");
             usernameErrorLabel.setVisible(true);
             valid = false;
-        }
-        else if (!usernameField.getText().trim().isEmpty()
-                && Admin.usernameExists(usernameField.getText().trim())) {
+        } else if (!usernameField.getText().trim().isEmpty()
+                && User.usernameExists(usernameField.getText().trim())) {
             usernameField.getStyleClass().add("error-field");
             usernameErrorLabel.setText("Username already exists!");
             usernameErrorLabel.setVisible(true);
@@ -283,13 +283,27 @@ public class AdminMenu {
             emailErrorLabel.setText("Same Email!");
             emailErrorLabel.setVisible(true);
             valid = false;
-        }
-        else if (!email.isEmpty()
+        } else if (!email.isEmpty()
+                && User.emailExists(emailField.getText().trim())) {
+            emailField.getStyleClass().add("error-field");
+            emailErrorLabel.setText("Email already userExists!");
+            emailErrorLabel.setVisible(true);
+            valid = false;
+        } else if (!email.isEmpty()
                 && !email.contains("@")) {
             emailField.getStyleClass().add("error-field");
             emailErrorLabel.setText("Invalid format!");
             emailErrorLabel.setVisible(true);
             valid = false;
+        } else {
+            // regex to validate email format
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+            if (!email.matches(emailRegex)) {
+                emailField.getStyleClass().add("error-field");
+                emailErrorLabel.setText("Invalid email format!");
+                emailErrorLabel.setVisible(true);
+                valid = false;
+            }
         }
 
         // Password

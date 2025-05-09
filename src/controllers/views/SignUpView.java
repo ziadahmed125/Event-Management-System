@@ -82,25 +82,11 @@ public class SignUpView {
             usernameErrorLabel.setText("Username is required!");
             usernameErrorLabel.setVisible(true);
             valid = false;
-        }
-        RadioButton selectedRadio = (RadioButton) roleToggleGroup.getSelectedToggle();
-        if (selectedRadio != null) {
-            String selectedRole = selectedRadio.getText();
-            String enteredUsername = usernameField.getText().trim();
-
-            boolean exists = switch (selectedRole) {
-                case "Attendee" -> Attendee.usernameExists(enteredUsername);
-                case "Organizer" -> Organizer.usernameExists(enteredUsername);
-                case "Admin" -> Admin.usernameExists(enteredUsername);
-                default -> false;
-            };
-
-            if (exists) {
-                usernameField.getStyleClass().add("error-field");
-                usernameErrorLabel.setText("Username already exists!");
-                usernameErrorLabel.setVisible(true);
-                valid = false;
-            }
+        } else if (User.usernameExists(usernameField.getText().trim())) {
+            usernameField.getStyleClass().add("error-field");
+            usernameErrorLabel.setText("Username already userExists!");
+            usernameErrorLabel.setVisible(true);
+            valid = false;
         }
 
         // Date of Birth
@@ -137,12 +123,27 @@ public class SignUpView {
             emailErrorLabel.setText("Email is required!");
             emailErrorLabel.setVisible(true);
             valid = false;
-        } else if (!email.contains("@")) {
+        } else if (User.emailExists(email)) {
             emailField.getStyleClass().add("error-field");
-            emailErrorLabel.setText("Invalid format!");
+            emailErrorLabel.setText("Email already exists!");
             emailErrorLabel.setVisible(true);
             valid = false;
+        } else if (!email.contains("@")) {
+            emailField.getStyleClass().add("error-field");
+            emailErrorLabel.setText("Invalid format! '@' symbol missing.");
+            emailErrorLabel.setVisible(true);
+            valid = false;
+        } else {
+            // regex to validate email format
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+            if (!email.matches(emailRegex)) {
+                emailField.getStyleClass().add("error-field");
+                emailErrorLabel.setText("Invalid email format!");
+                emailErrorLabel.setVisible(true);
+                valid = false;
+            }
         }
+
 
         // Password
         String password = passwordField.getText();

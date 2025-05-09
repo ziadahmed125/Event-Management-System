@@ -6,9 +6,10 @@
 <?import javafx.scene.text.Font?>
 
 <?import javafx.collections.FXCollections?>
-<StackPane fx:id="rootPane" prefHeight="580" prefWidth="350"
+<StackPane fx:id="rootPane" prefHeight="580" prefWidth="400.0"
            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="controllers.menus.AdminMenu" stylesheets="@/css/style.css">
+           fx:controller="controllers.menus.AdminMenu" stylesheets="@/css/style.css"
+           styleClass="bodybgAdminMenu">
 
     <VBox fx:id="setRolePane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
         <Label text="Admin Menu">
@@ -246,7 +247,7 @@
         <Button text="Back" onAction="#back"/>
     </VBox>
     <!-- Show Categories -->
-    <VBox fx:id="showCategoriesPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+    <VBox fx:id="showCategoriesPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="250" spacing="8" visible="false" managed="false">
         <Label text="Admin Menu">
             <font><Font name="Arial" size="24"/></font>
         </Label>

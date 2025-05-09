@@ -4,7 +4,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane fx:id="rootPane" prefHeight="580" prefWidth="350" stylesheets="@/css/style.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.menus.AttendeeMenu">
+<StackPane fx:id="rootPane" prefHeight="580" prefWidth="400.0" stylesheets="@/css/style.css"
+           styleClass="bodybgAttendeeMenu" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.menus.AttendeeMenu">
 
     <!-- Attendee Menu Page -->
     <VBox fx:id="mainMenuPane" alignment="CENTER" managed="false" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false">

@@ -37,12 +37,6 @@ public class Attendee extends User {
                 + "\nInterests: " + getInterests();
     }
 
-    public static boolean usernameExists(String username) {
-        return Database.attendeesDB.stream()
-                .filter(a -> a.getUsername() != null)
-                .anyMatch(a -> a.getUsername().equalsIgnoreCase(username));
-    }
-
     // Wallet
     public String getBalanceString() {
         return "Balance: $" + wallet.getBalance();
@@ -93,10 +87,12 @@ public class Attendee extends User {
         tickets.add(ticket);
     }
     public String getTickets(){
+        if(tickets.isEmpty()) return "No tickets bought!";
+
         String s ="";
 
         for(String ticket : tickets){
-            s += "(" + ticket + ") ";
+            s += "(" + ticket + ")\n";
         }
 
         return s;

@@ -28,12 +28,6 @@ public class Organizer extends User {
         return null;
     }
 
-    public static boolean usernameExists(String username) {
-        return Database.organizersDB.stream()
-                .filter(o -> o.getUsername() != null)
-                .anyMatch(o -> o.getUsername().equalsIgnoreCase(username));
-    }
-
     // Wallet
     public String getBalanceString() {
         return "Balance: $" + wallet.getBalance();

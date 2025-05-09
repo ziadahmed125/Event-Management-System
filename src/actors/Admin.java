@@ -40,12 +40,6 @@ public class Admin extends User {
                 + "\nWorking Hours: " + workingHours;
     }
 
-    public static boolean usernameExists(String username) {
-        return Database.adminsDB.stream()
-                .filter(ad -> ad.getUsername() != null)
-                .anyMatch(ad -> ad.getUsername().equalsIgnoreCase(username));
-    }
-
     public String showOrganizers() {
         if (Database.organizersDB.isEmpty()) {
             return "No Organizers registered.";
@@ -120,15 +114,12 @@ public class Admin extends User {
     public String getRole() {
         return role;
     }
-
     public void setRole(String role) {
         this.role = role;
     }
-
     public int getWorkingHours() {
         return workingHours;
     }
-
     public void setWorkingHours(int workingHours) {
         this.workingHours = workingHours;
     }

@@ -1,10 +1,12 @@
 package actors;
 
+import Interfaces.Iuser;
+import core.Database;
 import models.Gender;
 
 import java.time.LocalDate;
 
-public abstract class User {
+public abstract class User implements Iuser {
 
     protected String firstName;
     protected String lastName;
@@ -40,15 +42,28 @@ public abstract class User {
                 + "\nEmail: " + email;
     }
 
-    public void displayProfile(){
-        System.out.println(
-                "Name: " + firstName + " " + lastName
-                + "\nUsername: " + username
-                + "\nGender: " + gender
-                + "\nDate Of Birth: " +dateOfBirth
-                + "\nAddress: " + address
-                + "\nEmail: " + email
-        );
+    public static boolean usernameExists(String username) {
+        return Database.adminsDB.stream()
+                .filter(ad -> ad.getUsername() != null)
+                .anyMatch(ad -> ad.getUsername().equalsIgnoreCase(username)) ||
+                Database.attendeesDB.stream()
+                        .filter(a -> a.getUsername() != null)
+                        .anyMatch(a -> a.getUsername().equalsIgnoreCase(username)) ||
+                Database.organizersDB.stream()
+                        .filter(o -> o.getUsername() != null)
+                        .anyMatch(o -> o.getUsername().equalsIgnoreCase(username));
+    }
+
+    public static boolean emailExists(String email) {
+        return Database.adminsDB.stream()
+                .filter(ad -> ad.getEmail() != null)
+                .anyMatch(ad -> ad.getEmail().equalsIgnoreCase(email)) ||
+                Database.attendeesDB.stream()
+                        .filter(a -> a.getEmail() != null)
+                        .anyMatch(a -> a.getEmail().equalsIgnoreCase(email)) ||
+                Database.organizersDB.stream()
+                        .filter(o -> o.getEmail() != null)
+                        .anyMatch(o -> o.getEmail().equalsIgnoreCase(email));
     }
 
     public String getFirstName() {

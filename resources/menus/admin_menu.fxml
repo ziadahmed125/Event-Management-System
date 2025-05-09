@@ -33,7 +33,7 @@
         </Label>
         <VBox spacing="2">
             <TextField fx:id="setWorkingHoursField" promptText="Set Working Hours" />
-            <Label fx:id="setWorkingHoursLabel" visible="false" styleClass="error-label"/>
+            <Label fx:id="setWorkingHoursErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
         <Button text="Confirm Working Hours" onAction="#confirmWorkingHours"/>
     </VBox>
@@ -178,7 +178,7 @@
         </Label>
         <Button text="Show Rooms" onAction="#showRoomsButton"/>
         <Button text="Add Room" onAction="#addRoomButton"/>
-        <Button text="Update Room Availability" onAction="#updateRoomAvailabilityButton"/>
+        <Button text="Delete Room" onAction="#deleteRoomButton"/>
         <Button text="Back" onAction="#back"/>
     </VBox>
     <!-- Show Rooms -->
@@ -201,49 +201,33 @@
             <font><Font name="Arial" size="18"/></font>
         </Label>
         <VBox spacing="2">
-            <TextField fx:id="roomTypeField" promptText="Room ID" />
+            <TextField fx:id="roomTypeField" promptText="Room Type" />
             <Label fx:id="roomTypeErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
         <VBox spacing="2">
             <TextField fx:id="roomPriceField" promptText="Room Price $" />
             <Label fx:id="roomPriceErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
-        <ComboBox fx:id="availabilityComboBox" prefWidth="200" styleClass="error-label">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="Yes" />
-                    <String fx:value="No" />
-                </FXCollections>
-            </items>
-        </ComboBox>
-        <Label fx:id="availabilityComboBoxErrorLabel" text = "Choose Please!" visible="false" styleClass="error-label"/>
         <Button text="Confirm" onAction="#confirmAddRoomButton"/>
         <Button text="Back" onAction="#back"/>
     </VBox>
-    <!-- Update Room -->
-    <VBox fx:id="updateRoomAvailabilityPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+    <!-- Delete Room -->
+    <VBox fx:id="deleteRoomPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
         <Label text="Admin Menu">
             <font><Font name="Arial" size="24"/></font>
         </Label>
-        <Label text="Update Room Availability">
+        <Label text="Delete Room">
             <font><Font name="Arial" size="18"/></font>
         </Label>
-        <VBox spacing="2">
-            <TextField fx:id="roomIdField" promptText="Room ID" />
-            <Label fx:id="roomIdErrorLabel" visible="false" styleClass="error-label"/>
-        </VBox>
-        <VBox spacing="2">
-            <ComboBox fx:id="updateAvailabilityComboBox" prefWidth="200" styleClass="error-label">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Yes" />
-                        <String fx:value="No" />
-                    </FXCollections>
-                </items>
-            </ComboBox>
-            <Label fx:id="updateAvailabilityComboBoxErrorLabel" text = "Choose Please!" visible="false" styleClass="error-label"/>
-        </VBox>
-        <Button text="Confirm Changes" onAction="#confirmRoomAvailabilityChangeButton"/>
+        <HBox spacing="4">
+            <VBox>
+                <ComboBox fx:id="deleteRoomComboBox" prefWidth="130" prefHeight="25" />
+                <Label fx:id="deleteRoomErrorLabel" visible="false" styleClass="error-label"/>
+            </VBox>
+            <Button text="Confirm" onAction="#confirmRoom"/>
+        </HBox>
+        <Label fx:id="roomInfoLabel" />
+        <Button text="Confirm Delete" onAction="#confirmRoomDeleteButton"/>
         <Button text="Back" onAction="#back"/>
     </VBox>
 
@@ -300,8 +284,8 @@
             <font><Font name="Arial" size="18"/></font>
         </Label>
         <VBox>
-            <ComboBox fx:id="availableCategoryComboBox" prefWidth="200" />
-            <Label fx:id="availableCategoryErrorLabel" visible="false" styleClass="error-label"/>
+            <ComboBox fx:id="editAvailableCategoryComboBox" prefWidth="200" />
+            <Label fx:id="editAvailableCategoryErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
         <VBox spacing="2">
             <TextField fx:id="editCategoryNameField" promptText="Name" />
@@ -309,9 +293,8 @@
         </VBox>
         <VBox spacing="2">
             <TextField fx:id="editCategoryDescriptionField" promptText="Description" />
-            <Label fx:id="editCategoryDescriptionErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
-        <Button text="Confirm" onAction="#confirmEditAddCategoryButton"/>
+        <Button text="Confirm" onAction="#confirmEditCategoryButton"/>
         <Button text="Back" onAction="#back"/>
     </VBox>
     <!-- Delete Category -->
@@ -323,8 +306,8 @@
             <font><Font name="Arial" size="18"/></font>
         </Label>
         <VBox>
-            <ComboBox fx:id="editAvailableCategoryComboBox" prefWidth="200" />
-            <Label fx:id="editAvailableCategoryErrorLabel" visible="false" styleClass="error-label"/>
+            <ComboBox fx:id="deleteCategoryComboBox" prefWidth="200" />
+            <Label fx:id="deleteCategoryErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
         <Button text="Confirm" onAction="#confirmDeleteCategoryButton"/>
         <Button text="Back" onAction="#back"/>

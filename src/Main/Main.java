@@ -7,6 +7,7 @@ import core.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -17,11 +18,20 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Main extends Application {
+
     public static Stage primaryStage;
 
     @Override
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
+
+        // Set the application icon
+        try {
+            Image icon = new Image(getClass().getResourceAsStream("/Icon.png"));
+            stage.getIcons().add(icon);
+        } catch (Exception e) {
+            System.err.println("Couldn't load icon: " + e.getMessage());
+        }
 
         Database.attendeesDB.add(new Attendee("Ziad", "Ahmed", "XED", Gender.valueOf("Male"), LocalDate.parse("2007-05-12"), "Cairo", "@", ""));
         Database.organizersDB.add(new Organizer("Ziad", "Ahmed", "XED", Gender.valueOf("Male"), LocalDate.parse("2007-05-12"), "Cairo", "@", ""));
@@ -60,7 +70,6 @@ public class Main extends Application {
         Database.categoriesDB.add(new Category("Seminar", "A professional seminar"));
         Database.categoriesDB.add(new Category("Workshop", "Hands-on practical learning"));
         Database.categoriesDB.add(new Category("Conference", "A large conference for networking"));
-
 
         FXMLLoader fxmlLoader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("/views/SignUpView.fxml")));
         Scene scene = new Scene(fxmlLoader.load());

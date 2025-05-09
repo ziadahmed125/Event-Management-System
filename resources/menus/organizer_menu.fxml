@@ -18,7 +18,7 @@
         <Button text="View Profile" onAction="#viewProfile"/>
         <Button onAction="#walletButton" text="Wallet" />
         <Button text="Show Dashboard" onAction="#showDashboard"/>
-        <Button text="Create Event" onAction="#createEvent"/>
+        <Button text="Manage Events" onAction="#manageEvent"/>
         <Button text="Rent Room" onAction="#rentRoom"/>
         <Button text="Logout" onAction="#logout"/>
     </VBox>
@@ -168,6 +168,18 @@
         <Button text="Back" onAction="#back"/>
     </VBox>
 
+    <!-- Manage Event -->
+    <VBox fx:id="manageEventPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Organizer Menu">
+            <font><Font size="24"/></font>
+        </Label>
+        <Label text="Manage Events">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <Button onAction="#createEvent" text="Create Event"/>
+        <Button onAction="#deleteEvent" text="Delete Event"/>
+        <Button onAction="#back" text="Back"/>
+    </VBox>
     <!-- Create Event -->
     <VBox fx:id="createEventPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
         <Label text="Organizer Menu">
@@ -198,6 +210,21 @@
         </VBox>
         <Button onAction="#confirmAddEventButton" text="Confirm"/>
         <Button onAction="#back" text="Back"/>
+    </VBox>
+    <!-- Delete Event -->
+    <VBox fx:id="deleteEventPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">
+        <Label text="Organizer Menu">
+            <font><Font size="24"/></font>
+        </Label>
+        <Label text="Manage Events">
+            <font><Font name="Arial" size="18"/></font>
+        </Label>
+        <VBox>
+            <ComboBox fx:id="deleteEventComboBox" prefWidth="200" />
+            <Label fx:id="deleteEventErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
+        <Button text="Confirm" onAction="#confirmDeleteEventButton"/>
+        <Button text="Back" onAction="#back"/>
     </VBox>
 
     <!-- Rent Room -->

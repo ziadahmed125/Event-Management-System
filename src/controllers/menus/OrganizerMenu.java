@@ -37,8 +37,10 @@ public class OrganizerMenu {
     @FXML private VBox availableRoomsPane;
     @FXML private VBox eventsOrganizingPane;
     @FXML private VBox eventsOrganizerPane;
-    // Create Event
+    // Manage Event
+    @FXML private VBox manageEventPane;
     @FXML private VBox createEventPane;
+    @FXML private VBox deleteEventPane;
     // Rent Room
     @FXML private VBox rentRoomPane;
 
@@ -91,6 +93,10 @@ public class OrganizerMenu {
     @FXML private Label availableRoomsOrganizingErrorLabel;
     @FXML private TextField eventPriceField;
     @FXML private Label eventPriceErrorLabel;
+
+    // delete event
+    @FXML private ComboBox<Event> deleteEventComboBox;
+    @FXML private Label deleteEventErrorLabel;
 
     // rent room
     @FXML private ComboBox<Room> availableRoomsComboBox;
@@ -409,6 +415,9 @@ public class OrganizerMenu {
     }
 
     // event
+    public void manageEvent(ActionEvent event) {
+        switchPane(manageEventPane);
+    }
     public void createEvent(ActionEvent event) {
         switchPane(createEventPane);
 
@@ -501,7 +510,7 @@ public class OrganizerMenu {
         e.setOrganizer(loggedInOrganizer);
         e.setTicketPrice(Double.parseDouble(eventPriceField.getText().trim()));
 
-        Event.create(e);
+        e.create();
         loggedInOrganizer.setEventsOrganizing(e);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Event created successfully!");
@@ -512,6 +521,34 @@ public class OrganizerMenu {
         eventPriceField.setText("");
 
         switchPane(mainMenuPane);
+    }
+    public void deleteEvent(ActionEvent event) {
+        switchPane(deleteEventPane);
+
+        deleteEventComboBox.setItems(FXCollections.observableArrayList(loggedInOrganizer.getEventsOrganizing()));
+
+        deleteEventComboBox.getStyleClass().removeAll("error-field");
+        deleteEventErrorLabel.setVisible(false);
+    }
+    public void confirmDeleteEventButton(ActionEvent event) {
+        deleteEventComboBox.getStyleClass().removeAll("error-field");
+        deleteEventErrorLabel.setVisible(false);
+
+        if(deleteEventComboBox.getValue() == null) {
+            deleteEventComboBox.getStyleClass().add("error-field");
+            deleteEventErrorLabel.setText("Must select a category!");
+            deleteEventErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        deleteEventComboBox.getValue().delete();
+        loggedInOrganizer.deleteEvent(deleteEventComboBox.getValue());
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Event Deleted Successfully!");
+        alert.showAndWait();
+
+        switchPane(manageEventPane);
     }
 
     // rent room

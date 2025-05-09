@@ -60,17 +60,18 @@ public class Event {
         return string;
     }
 
-    public static void create(Event event) {
-        Database.eventsDB.add(event);
+    public void create() {
+        Database.eventsDB.add(this);
     }
 
-    public static void read() {
+    public void read() {
     }
 
-    public static void update() {
+    public void update() {
     }
 
-    public static void delete() {
+    public void delete() {
+        Database.eventsDB.remove(this);
     }
 
     public static Event getEvent(String id) {

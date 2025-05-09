@@ -55,3 +55,68 @@
  -fx-background-size: cover;
  -fx-background-position: center center;
 }
+
+.custom-button {
+    -fx-background-color: #4A90E2;      /* Light blue background */
+    -fx-text-fill: white;              /* Text color */
+    -fx-font-family: "Arial";          /* Font style */
+    -fx-font-size: 14px;               /* Font size */
+    -fx-background-radius: 8;          /* Rounded corners */
+    -fx-padding: 8 16;                 /* Padding inside the button */
+}
+
+.custom-textfield {
+    -fx-background-color: #f0f8ff;   /* Light background */
+    -fx-text-fill: #333;            /* Dark text */
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-background-radius: 6;
+    -fx-border-color: #4A90E2;
+    -fx-border-radius: 6;
+    -fx-border-width: 1px;
+    -fx-padding: 6 10;
+}
+
+/* style.css */
+
+/* Background for the whole sign-up form */
+.bodybgSignUp {
+    -fx-background-color: linear-gradient(to bottom, #e0f7fa, #b2ebf2); /* light blue gradient */
+    -fx-padding: 20;
+}
+
+/* Apply to all text fields inside VBox */
+.bodybgSignUp TextField,
+.bodybgSignUp PasswordField,
+.bodybgSignUp ComboBox,
+.bodybgSignUp DatePicker {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #4A90E2;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 4 6;
+    -fx-font-size: 13px;
+    -fx-text-fill: #333333;
+}
+
+/* Custom button styling */
+.custom-button {
+    -fx-background-color: #4A90E2;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5;
+    -fx-padding: 8 20;
+}
+
+.custom-button:hover {
+    -fx-background-color: #357ABD;
+}
+
+.SignUpButton-button {
+    -fx-background-image: url("/Buttons/SignUpButton.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: contain;
+    -fx-background-position: center;
+    -fx-background-color: transparent;
+    -fx-padding: 100; /* adjust to prevent text from overlapping */
+}

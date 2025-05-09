@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.scene.text.Font?>
-<StackPane fx:id="rootPane" prefHeight="580" prefWidth="400.0"
+<StackPane fx:id="rootPane" prefHeight="610" prefWidth="430.0"
            xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="controllers.menus.OrganizerMenu" stylesheets="@/css/style.css"
            styleClass="bodybgOrganizerMenu">

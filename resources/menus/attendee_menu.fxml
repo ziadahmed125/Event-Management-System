@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane fx:id="rootPane" prefHeight="580" prefWidth="400.0" stylesheets="@/css/style.css"
+<StackPane fx:id="rootPane" prefHeight="610" prefWidth="430.0" stylesheets="@/css/style.css"
            styleClass="bodybgAttendeeMenu" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.menus.AttendeeMenu">
 
     <!-- Attendee Menu Page -->

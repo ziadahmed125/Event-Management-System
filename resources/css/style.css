@@ -19,8 +19,9 @@
     -fx-font-size: 10px;
 }
 .white-text {
-  -fx-font-family: "Verdana";
+  -fx-font-family: "Segoe Ui";
   -fx-text-fill: #767676 ;
+  -fx-font-weight: bold;
 }
 
 .bodybgSignUp{
@@ -75,9 +76,7 @@
     -fx-padding: 6 10;
 }
 
-/* style.css */
 
-/* Background for the whole sign-up form */
 .bodybgSignUp {
     -fx-background-color: linear-gradient(to bottom, #e0f7fa, #b2ebf2); /* light blue gradient */
     -fx-padding: 20;
@@ -88,6 +87,16 @@
 .bodybgSignUp PasswordField,
 .bodybgSignUp ComboBox,
 .bodybgSignUp DatePicker {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #4A90E2;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 4 6;
+    -fx-font-size: 13px;
+    -fx-text-fill: #333333;
+}
+.bodybgLogin TextField,
+.bodybgLogin PasswordField{
     -fx-background-color: #ffffff;
     -fx-border-color: #4A90E2;
     -fx-border-radius: 5;
@@ -110,11 +119,36 @@
     -fx-background-color: #357ABD;
 }
 
-.SignUpButton-button {
-    -fx-background-image: url("/Buttons/SignUpButton.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-size: contain;
-    -fx-background-position: center;
-    -fx-background-color: transparent;
-    -fx-padding: 100; /* adjust to prevent text from overlapping */
+.SignUp_LoginButton {
+    -fx-background-color: #4A90E2;
+    -fx-text-fill: white;
+    -fx-font-size: 100px;
+    -fx-background-radius: 7;
+    -fx-padding: 15 35;
+    -fx-pref-width: 120px;
+    -fx-pref-height: 30px;
+
+}
+
+.SignUp_LoginButton:hover {
+    -fx-background-color: #357ABD;
+
+}
+
+
+/* This applies to all Buttons in the scene */
+.button {
+    -fx-background-color: #4A90E2;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-background-radius: 7;
+    -fx-padding: 3 13;
+     -fx-opacity: 0.9;
+     -fx-pref-width: 140px;
+     -fx-pref-height: 19px;
+}
+
+.button:hover {
+    -fx-background-color: #357ABH;
+     -fx-opacity: 1
 }

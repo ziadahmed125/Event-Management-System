@@ -567,40 +567,49 @@ public class AdminMenu {
         editAvailableCategoryErrorLabel.setVisible(false);
     }
     public void confirmEditCategoryButton(ActionEvent event) {
+        // Reset styles and error labels
         editCategoryNameField.getStyleClass().removeAll("error-field");
         editCategoryNameErrorLabel.setVisible(false);
         editAvailableCategoryComboBox.getStyleClass().removeAll("error-field");
         editAvailableCategoryErrorLabel.setVisible(false);
 
+        // Validation: must select a category
         if (editAvailableCategoryComboBox.getValue() == null) {
             editAvailableCategoryComboBox.getStyleClass().add("error-field");
             editAvailableCategoryErrorLabel.setText("Must select a category!");
             editAvailableCategoryErrorLabel.setVisible(true);
-
             return;
         }
 
-        if(Category.isNameUnique(editCategoryNameField.getText().trim())) {
+        String newName = editCategoryNameField.getText().trim();
+        String newDescription = editCategoryDescriptionField.getText().trim();
+        Category selectedCategory = editAvailableCategoryComboBox.getValue();
+
+        if (!newName.isEmpty() && !newName.equals(selectedCategory.getName()) &&
+                Category.isNameUnique(newName)) {
             editCategoryNameField.getStyleClass().add("error-field");
             editCategoryNameErrorLabel.setText("Name already exists!");
             editCategoryNameErrorLabel.setVisible(true);
-
             return;
         }
 
-        Category category = new Category(categoryNameField.getText().trim(), categoryDescriptionField.getText().trim());
+        if (newName.isEmpty()) {
+            newName = selectedCategory.getName();
+        }
+        if (newDescription.isEmpty()) {
+            newDescription = selectedCategory.getDescription();
+        }
 
-        if(categoryNameField.getText().trim().isEmpty())
-            category.setName(editAvailableCategoryComboBox.getValue().getName());
+        selectedCategory.setName(newName);
+        selectedCategory.setDescription(newDescription);
 
-        if(categoryDescriptionField.getText().trim().isEmpty())
-            category.setDescription(editAvailableCategoryComboBox.getValue().getDescription());
-
-        editAvailableCategoryComboBox.getValue().update(category);
+        editAvailableCategoryComboBox.setItems(FXCollections.observableArrayList(Database.categoriesDB));
+        deleteCategoryComboBox.setItems(FXCollections.observableArrayList(Database.categoriesDB));
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Category Edited Successfully!");
         alert.showAndWait();
 
+        // Clear fields
         deleteCategoryComboBox.setValue(null);
         editCategoryNameField.setText("");
         editCategoryDescriptionField.setText("");

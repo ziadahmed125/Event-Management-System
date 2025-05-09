@@ -28,10 +28,9 @@ public class Category {
 
     public void update(Category c) {
         for (Category category : Database.categoriesDB) {
-            if (category.equals(this)) {
+            if (category.getName().equals(this.getName())) {
                 category.setName(c.getName());
                 category.setDescription(c.getDescription());
-                break;
             }
         }
     }

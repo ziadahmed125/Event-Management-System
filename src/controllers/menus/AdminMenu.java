@@ -639,8 +639,8 @@ public class AdminMenu {
         deleteCategoryErrorLabel.setVisible(false);
     }
     public void confirmDeleteCategoryButton(ActionEvent event) {
-        editAvailableCategoryComboBox.getStyleClass().removeAll("error-field");
-        editAvailableCategoryErrorLabel.setVisible(false);
+        deleteCategoryComboBox.getStyleClass().removeAll("error-field");
+        deleteCategoryErrorLabel.setVisible(false);
 
         if(deleteCategoryComboBox.getValue() == null) {
             deleteCategoryComboBox.getStyleClass().add("error-field");

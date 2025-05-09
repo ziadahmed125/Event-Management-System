@@ -45,6 +45,9 @@ public class Organizer extends User {
         wallet.deductFunds(amount);
     }
 
+    public ArrayList<Event> getEventsOrganizing() {
+        return eventsOrganizing;
+    }
     public String getEventsOrganizingString() {
         if (eventsOrganizing.isEmpty()) {
             return "No Available Events!";
@@ -100,6 +103,9 @@ public class Organizer extends User {
     }
     public void setEventsOrganizing(Event event) {
         eventsOrganizing.add(event);
+    }
+    public void deleteEvent(Event event) {
+        eventsOrganizing.remove(event);
     }
 
     public ArrayList<Room> getRoomsRented() {

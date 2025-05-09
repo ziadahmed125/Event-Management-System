@@ -11,9 +11,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.control.RadioButton?>
 
-<VBox alignment="CENTER" prefHeight="580.0" prefWidth="350.0" spacing="16"
+<VBox alignment="CENTER" prefHeight="580.0" prefWidth="400.0" spacing="16"
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx"
-      fx:controller="controllers.views.LoginView" stylesheets="@/css/style.css">
+      fx:controller="controllers.views.LoginView" stylesheets="@/css/style.css"
+      styleClass="bodybgLogin">
 
     <!-- Title -->
     <Label text="Login As" layoutX="100" layoutY="30">

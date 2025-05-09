@@ -6,9 +6,10 @@
 
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<VBox alignment="CENTER" prefHeight="580.0" prefWidth="350.0" spacing="16"
+<VBox alignment="CENTER" prefHeight="580.0" prefWidth="400.0" spacing="16"
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx"
-      fx:controller="controllers.views.SignUpView" stylesheets="@/css/style.css">
+      fx:controller="controllers.views.SignUpView" stylesheets="@/css/style.css"
+      styleClass="bodybgSignUp">
 
     <!-- Title -->
     <Label text="Sign-Up As" layoutX="100" layoutY="30">

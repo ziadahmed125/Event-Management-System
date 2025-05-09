@@ -21,7 +21,7 @@ public class Room {
 
     @Override
     public String toString() {
-        return roomId + "";
+        return "Room " + roomId;
     }
 
     // Getters and setters
@@ -50,21 +50,20 @@ public class Room {
 
     public String getRoomInfo() {
         return "Room ID:" + this.roomId
-                + "Room Type: " + this.roomType
-                + "Room Price: $" + this.price;
+                + "\nRoom Type: " + this.roomType
+                + "\nRoom Price: $" + this.price;
     }
 
     public static boolean updateRoomAvailability(int roomId, boolean availability) {
         for (Room room : Database.roomsDB) {
             if (room.getRoomId() == roomId) {
-                Database.roomsDB.remove(room);
-                room.setAvailability(availability);
-                Database.roomsDB.add(room);
+                room.setAvailability(availability); // Directly update the room
+                return true; // Room updated successfully
             }
         }
-
-        return false;
+        return false; // Room with the given ID was not found
     }
+
 
     public static String availableRooms() {
         if (Database.roomsDB.isEmpty()) {

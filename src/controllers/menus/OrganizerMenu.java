@@ -396,7 +396,7 @@ public class OrganizerMenu {
             return;
         }
 
-        allEventAttendees.setText(loggedInOrganizer.getEventsOrganizingAttendees(availableEventsComboBox.getValue()));
+        allEventAttendees.setText(loggedInOrganizer.getEventOrganizingAttendees(availableEventsComboBox.getValue()));
     }
 
     // event
@@ -405,11 +405,86 @@ public class OrganizerMenu {
 
         availableCategoriesComboBox.setItems(FXCollections.observableArrayList(Database.categoriesDB));
         availableOrganizerRoomsComboBox.setItems(FXCollections.observableArrayList(loggedInOrganizer.getRoomsRented()));
+
+        eventNameField.getStyleClass().removeAll("error-field");
+        eventDescriptionField.getStyleClass().removeAll("error-field");
+        availableCategoriesComboBox.getStyleClass().removeAll("error-field");
+        availableRoomsComboBox.getStyleClass().removeAll("error-field");
+        eventPriceField.getStyleClass().removeAll("error-field");
+        eventNameErrorLabel.setVisible(false);
+        eventDescriptionErrorLabel.setVisible(false);
+        availableCategoriesErrorLabel.setVisible(false);
+        availableRoomsErrorLabel.setVisible(false);
+        eventPriceErrorLabel.setVisible(false);
     }
     public void confirmAddEventButton(ActionEvent event) {
-        // validate
+        eventNameField.getStyleClass().removeAll("error-field");
+        eventDescriptionField.getStyleClass().removeAll("error-field");
+        availableCategoriesComboBox.getStyleClass().removeAll("error-field");
+        availableOrganizerRoomsComboBox.getStyleClass().removeAll("error-field");
+        eventPriceField.getStyleClass().removeAll("error-field");
+        eventNameErrorLabel.setVisible(false);
+        eventDescriptionErrorLabel.setVisible(false);
+        availableCategoriesErrorLabel.setVisible(false);
+        availableRoomsOrganizingErrorLabel.setVisible(false);
+        eventPriceErrorLabel.setVisible(false);
+
+        boolean valid = true;
+
+        if(eventNameField.getText().trim().isEmpty()) {
+            eventNameField.getStyleClass().add("error-field");
+            eventNameErrorLabel.setText("Can't be empty!");
+            eventNameErrorLabel.setVisible(true);
+
+            valid = false;
+        }
+
+        if(eventDescriptionField.getText().trim().isEmpty()) {
+            eventDescriptionField.getStyleClass().add("error-field");
+            eventDescriptionErrorLabel.setText("Can't be empty!");
+            eventDescriptionErrorLabel.setVisible(true);
+
+            valid = false;
+        }
+
+        if(availableCategoriesComboBox == null) {
+            availableCategoriesComboBox.getStyleClass().add("error-field");
+            availableCategoriesErrorLabel.setText("Can't be empty!");
+            availableCategoriesErrorLabel.setVisible(true);
+
+            valid = false;
+        }
+
+        if(availableOrganizerRoomsComboBox == null) {
+            availableOrganizerRoomsComboBox.getStyleClass().add("error-field");
+            availableRoomsOrganizingErrorLabel.setText("Can't be empty!");
+            availableRoomsOrganizingErrorLabel.setVisible(true);
+
+            valid = false;
+        }
+
+        if(eventPriceField.getText().trim().isEmpty()) {
+            eventPriceField.getStyleClass().add("error-field");
+            eventPriceErrorLabel.setText("Can't be empty!");
+            eventPriceErrorLabel.setVisible(true);
+
+            valid = false;
+        }
+
+        try {
+            double value = Double.parseDouble(eventPriceField.getText().trim());
+        } catch (NumberFormatException e) {
+            eventPriceField.getStyleClass().add("error-field");
+            eventPriceErrorLabel.setText("Must be a number!");
+            eventPriceErrorLabel.setVisible(true);
+
+            valid = false;
+        }
+
+        if(!valid) return;
 
         Event e = new Event();
+
         e.setName(eventNameField.getText().trim());
         e.setDescription(eventDescriptionField.getText().trim());
         e.setCategory(availableCategoriesComboBox.getValue());
@@ -418,6 +493,16 @@ public class OrganizerMenu {
         e.setTicketPrice(Double.parseDouble(eventPriceField.getText().trim()));
 
         Event.create(e);
+        loggedInOrganizer.setEventsOrganizing(e);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Event created successfully!");
+        alert.showAndWait();
+
+        eventNameField.setText("");
+        eventDescriptionField.setText("");
+        eventPriceField.setText("");
+
+        switchPane(mainMenuPane);
     }
 
     // rent room
@@ -425,18 +510,47 @@ public class OrganizerMenu {
         switchPane(rentRoomPane);
 
         availableRoomsComboBox.setItems(FXCollections.observableArrayList(Room.getAvailableRooms()));
+
+        availableRoomsComboBox.getStyleClass().removeAll("error-field");
+        availableRoomsErrorLabel.setVisible(false);
+        roomInfoLabel.setVisible(false);
     }
     public void confirmRoomButton(ActionEvent event) {
-        // validate
+        availableRoomsComboBox.getStyleClass().removeAll("error-field");
+        availableRoomsErrorLabel.setVisible(false);
 
+        if(availableRoomsComboBox.getValue() == null) {
+            availableRoomsComboBox.getStyleClass().add("error-field");
+            availableRoomsErrorLabel.setText("Must select a room!");
+            availableRoomsErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        roomInfoLabel.getStyleClass().removeAll("error-label");
         roomInfoLabel.setText(availableRoomsComboBox.getValue().getRoomInfo());
+        roomInfoLabel.setVisible(true);
     }
     public void rentRoomButton(ActionEvent event) {
-        // validate balance
+        roomInfoLabel.getStyleClass().removeAll("error-label");
+
+        if(availableRoomsComboBox.getValue() == null) {
+            availableRoomsComboBox.getStyleClass().add("error-field");
+            availableRoomsErrorLabel.setText("Must select a room!");
+            availableRoomsErrorLabel.setVisible(true);
+
+            return;
+        }
 
         Room room = availableRoomsComboBox.getValue();
 
-        // validate funds
+        if(room.getPrice() > loggedInOrganizer.getBalance()) {
+            roomInfoLabel.getStyleClass().add("error-label");
+            roomInfoLabel.setText("Not enough funds!");
+            roomInfoLabel.setVisible(true);
+
+            return;
+        }
 
         loggedInOrganizer.deductFunds(room.getPrice());
         loggedInOrganizer.setRoomsRented(room);
@@ -444,6 +558,10 @@ public class OrganizerMenu {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Room rented successfully!");
         alert.showAndWait();
+
+        availableRoomsComboBox.setValue(null);
+
+        roomInfoLabel.setVisible(false);
 
         switchPane(mainMenuPane);
     }

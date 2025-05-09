@@ -1,12 +1,10 @@
 package actors;
 
 import core.Database;
-import core.Utility;
 import models.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Organizer extends User {
     private Wallet wallet;
@@ -84,7 +82,7 @@ public class Organizer extends User {
 
         return events;
     }
-    public String getEventsOrganizingAttendees(String s) {
+    public String getEventOrganizingAttendees(String s) {
         Event event = null;
 
         for(Event e : eventsOrganizing) {
@@ -105,6 +103,9 @@ public class Organizer extends User {
         }
 
         return attendees;
+    }
+    public void setEventsOrganizing(Event event) {
+        eventsOrganizing.add(event);
     }
 
     public ArrayList<Room> getRoomsRented() {

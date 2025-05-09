@@ -40,7 +40,7 @@ public class AdminMenu {
     @FXML private VBox manageRoomsPane;
     @FXML private VBox showRoomsPane;
     @FXML private VBox addRoomPane;
-    @FXML private VBox updateRoomAvailabilityPane;
+    @FXML private VBox deleteRoomPane;
     // Manage Categories
     @FXML private VBox manageCategoriesPane;
     @FXML private VBox showCategoriesPane;
@@ -53,7 +53,7 @@ public class AdminMenu {
     @FXML private TextField setRoleField;
     @FXML private Label setRoleErrorLabel;
     @FXML private TextField setWorkingHoursField;
-    @FXML private Label setWorkingHoursLabel;
+    @FXML private Label setWorkingHoursErrorLabel;
 
     // Main Menu
     @FXML private Label welcomeLabel;
@@ -89,14 +89,11 @@ public class AdminMenu {
     @FXML private Label allRooms;
     @FXML private Label roomTypeErrorLabel;
     @FXML private Label roomPriceErrorLabel;
-    @FXML private Label availabilityComboBoxErrorLabel;
-    @FXML private Label roomIdErrorLabel;
-    @FXML private Label updateAvailabilityComboBoxErrorLabel;
+    @FXML private Label deleteRoomErrorLabel;
+    @FXML private Label roomInfoLabel;
     @FXML private TextField roomTypeField;
     @FXML private TextField roomPriceField;
-    @FXML private TextField roomIdField;
-    @FXML private ComboBox availabilityComboBox;
-    @FXML private ComboBox updateAvailabilityComboBox;
+    @FXML private ComboBox<Room> deleteRoomComboBox;
 
     // manage categories
     @FXML private Label allCategories;
@@ -107,11 +104,10 @@ public class AdminMenu {
     @FXML private TextField editCategoryNameField;
     @FXML private TextField editCategoryDescriptionField;
     @FXML private Label editCategoryNameErrorLabel;
-    @FXML private Label editCategoryDescriptionErrorLabel;
-    @FXML private ComboBox<String> availableCategoryComboBox;
-    @FXML private ComboBox<String> editAvailableCategoryComboBox;
-    @FXML private Label availableCategoryErrorLabel;
+    @FXML private ComboBox<Category> editAvailableCategoryComboBox;
+    @FXML private ComboBox<Category> deleteCategoryComboBox;
     @FXML private Label editAvailableCategoryErrorLabel;
+    @FXML private Label deleteCategoryErrorLabel;
 
     public void setLoggedInAdmin(Admin admin) {
         this.loggedInAdmin = admin;
@@ -135,8 +131,6 @@ public class AdminMenu {
     @FXML
     public void initialize() {
         genderComboBox.setItems(FXCollections.observableArrayList(Gender.values()));
-        availableCategoryComboBox.setItems(FXCollections.observableArrayList(Category.getCategoryNames()));
-        editAvailableCategoryComboBox.setItems(FXCollections.observableArrayList(Category.getCategoryNames()));
     }
 
     public void confirmRole(ActionEvent event) {
@@ -145,7 +139,7 @@ public class AdminMenu {
 
         if(setRoleField.getText().trim().isEmpty()) {
             setRoleField.getStyleClass().add("error-field");
-            setRoleErrorLabel.setText("Filed can't be empty!");
+            setRoleErrorLabel.setText("Field can't be empty!");
             setRoleField.setVisible(true);
 
             return;
@@ -160,11 +154,11 @@ public class AdminMenu {
 
     public void confirmWorkingHours(ActionEvent event) {
         setWorkingHoursField.getStyleClass().removeAll("error-field");
-        setWorkingHoursLabel.setVisible(false);
+        setWorkingHoursErrorLabel.setVisible(false);
 
         if(setWorkingHoursField.getText().trim().isEmpty()) {
             setWorkingHoursField.getStyleClass().add("error-field");
-            setWorkingHoursLabel.setText("Filed can't be empty!");
+            setWorkingHoursErrorLabel.setText("Filed can't be empty!");
             setRoleField.setVisible(true);
 
             return;
@@ -175,8 +169,8 @@ public class AdminMenu {
 
         } catch (NumberFormatException e) {
             setWorkingHoursField.getStyleClass().add("error-field");
-            setWorkingHoursLabel.setText("Must be a number!");
-            setRoleField.setVisible(true);
+            setWorkingHoursErrorLabel.setText("Must be a number!");
+            setWorkingHoursField.setVisible(true);
 
             return;
         }
@@ -217,8 +211,8 @@ public class AdminMenu {
         clearValidationStyles();
 
         // First Name
-        if (firstNameField.getText().trim().isEmpty());
-        else if (firstNameField.getText().trim().equals(loggedInAdmin.getFirstName())) {
+        if (!firstNameField.getText().trim().isEmpty()
+                && firstNameField.getText().trim().equals(loggedInAdmin.getFirstName())) {
             firstNameField.getStyleClass().add("error-field");
             firstNameErrorLabel.setText("Same First Name!");
             firstNameErrorLabel.setVisible(true);
@@ -226,8 +220,8 @@ public class AdminMenu {
         }
 
         // Last Name
-        if (lastNameField.getText().trim().isEmpty());
-        else if (lastNameField.getText().trim().equals(loggedInAdmin.getLastName())) {
+        if (!lastNameField.getText().trim().isEmpty()
+                && lastNameField.getText().trim().equals(loggedInAdmin.getLastName())) {
             lastNameField.getStyleClass().add("error-field");
             lastNameErrorLabel.setText("Same Last Name!");
             lastNameErrorLabel.setVisible(true);
@@ -235,35 +229,30 @@ public class AdminMenu {
         }
 
         // Username
-        if (usernameField.getText().trim().isEmpty());
-        else if (usernameField.getText().trim().equals(loggedInAdmin.getUsername())) {
+        if (!usernameField.getText().trim().isEmpty()
+                && usernameField.getText().trim().equals(loggedInAdmin.getUsername())) {
             usernameField.getStyleClass().add("error-field");
             usernameErrorLabel.setText("Same Username!");
             usernameErrorLabel.setVisible(true);
             valid = false;
         }
-        else if (usernameField != null) {
-            String enteredUsername = usernameField.getText().trim();
-
-            boolean exists = Admin.usernameExists(enteredUsername);
-
-            if (exists) {
-                usernameField.getStyleClass().add("error-field");
-                usernameErrorLabel.setText("Username already exists!");
-                usernameErrorLabel.setVisible(true);
-                valid = false;
-            }
+        else if (!usernameField.getText().trim().isEmpty()
+                && Admin.usernameExists(usernameField.getText().trim())) {
+            usernameField.getStyleClass().add("error-field");
+            usernameErrorLabel.setText("Username already exists!");
+            usernameErrorLabel.setVisible(true);
+            valid = false;
         }
 
         // Date of Birth
-        if (dobField.getValue() == null);
-        else if (dobField.getValue().equals(loggedInAdmin.getDateOfBirth())) {
+        if (dobField.getValue() != null
+                && dobField.getValue().equals(loggedInAdmin.getDateOfBirth())) {
             dobField.getStyleClass().add("error-field");
             dobErrorLabel.setText("Same Date of Birth!");
             dobErrorLabel.setVisible(true);
             valid = false;
         }
-        else {
+        else if (dobField.getValue() != null) {
             if (dobField.getValue().isAfter(LocalDate.now())) {
                 dobField.getStyleClass().add("error-field");
                 dobErrorLabel.setText("Date can't be in the future!");
@@ -278,8 +267,8 @@ public class AdminMenu {
         }
 
         // Address
-        if (addressField.getText().trim().isEmpty());
-        else if (addressField.getText().trim().equals(loggedInAdmin.getAddress())) {
+        if (!addressField.getText().trim().isEmpty()
+                && addressField.getText().trim().equals(loggedInAdmin.getAddress())) {
             addressField.getStyleClass().add("error-field");
             addressErrorLabel.setText("Same address!");
             addressErrorLabel.setVisible(true);
@@ -288,14 +277,15 @@ public class AdminMenu {
 
         // Email
         String email = emailField.getText().trim();
-        if (email.isEmpty());
-        else if (email.equals(loggedInAdmin.getEmail())) {
+        if (!email.isEmpty()
+                && email.equals(loggedInAdmin.getEmail())) {
             emailField.getStyleClass().add("error-field");
             emailErrorLabel.setText("Same Email!");
             emailErrorLabel.setVisible(true);
             valid = false;
         }
-        else if (!email.contains("@")) {
+        else if (!email.isEmpty()
+                && !email.contains("@")) {
             emailField.getStyleClass().add("error-field");
             emailErrorLabel.setText("Invalid format!");
             emailErrorLabel.setVisible(true);
@@ -304,14 +294,15 @@ public class AdminMenu {
 
         // Password
         String password = passwordField.getText();
-        if (password.trim().isEmpty());
-        else if (password.trim().equals(loggedInAdmin.getPassword())) {
+        if (!password.trim().isEmpty()
+                && password.trim().equals(loggedInAdmin.getPassword())) {
             passwordField.getStyleClass().add("error-field");
             passwordErrorLabel.setText("Same Password!");
             passwordErrorLabel.setVisible(true);
             valid = false;
         }
-        else if (password.length() < 8) {
+        else if (!password.trim().isEmpty()
+                && password.length() < 8) {
             passwordField.getStyleClass().add("error-field");
             passwordErrorLabel.setText("Password must be over 8 characters!");
             passwordErrorLabel.setVisible(true);
@@ -319,8 +310,7 @@ public class AdminMenu {
         }
 
         // Confirm Password
-        if (confirmPasswordField.getText().trim().isEmpty() && password.trim().isEmpty());
-        else if (!confirmPasswordField.getText().equals(password)) {
+        if (!(confirmPasswordField.getText().trim().isEmpty() && password.trim().isEmpty()) && !confirmPasswordField.getText().equals(password)) {
             confirmPasswordField.getStyleClass().add("error-field");
             confirmPasswordErrorLabel.setText("Passwords don't match!");
             confirmPasswordErrorLabel.setVisible(true);
@@ -414,18 +404,26 @@ public class AdminMenu {
     }
     public void showRoomsButton(ActionEvent event) {
         switchPane(showRoomsPane);
+
         allRooms.setText(loggedInAdmin.showRooms());
     }
     public void addRoomButton(ActionEvent event) {
         switchPane(addRoomPane);
+
+        roomTypeField.getStyleClass().removeAll("error-field");
+        roomPriceField.getStyleClass().removeAll("error-field");
+        roomTypeErrorLabel.setVisible(false);
+        roomPriceErrorLabel.setVisible(false);
     }
     public void confirmAddRoomButton(ActionEvent event) {
+        roomTypeField.getStyleClass().removeAll("error-field");
+        roomPriceField.getStyleClass().removeAll("error-field");
+        roomTypeErrorLabel.setVisible(false);
+        roomPriceErrorLabel.setVisible(false);
+
         if(!validateAddRoom()) return;
 
-        boolean availability = availabilityComboBox.getValue().toString().equalsIgnoreCase("Yes");
-        Double price = Double.parseDouble(roomPriceField.getText());
-
-        Room room = new Room(availability, roomTypeField.getText(), price);
+        Room room = new Room(true, roomTypeField.getText().trim(), Double.parseDouble(roomPriceField.getText()));
         Database.roomsDB.add(room);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Room added Successfully!");
@@ -443,61 +441,65 @@ public class AdminMenu {
             valid = false;
         }
 
-        try {
-            Double value = Double.parseDouble(roomPriceField.getText());
-        } catch (NumberFormatException e) {
-            roomIdErrorLabel.getStyleClass().add("error-field");
-            roomPriceErrorLabel.setText("Please enter a valid number");
+        if (roomPriceField.getText().trim().isEmpty()) {
+            roomPriceField.getStyleClass().add("error-field");
+            roomPriceErrorLabel.setText("Can't be empty!");
             roomPriceErrorLabel.setVisible(true);
             valid = false;
+        } else {
+            try {
+                Double.parseDouble(roomPriceField.getText().trim());
+            } catch (NumberFormatException e) {
+                roomPriceField.getStyleClass().add("error-field");
+                roomPriceErrorLabel.setText("Please enter a valid number");
+                roomPriceErrorLabel.setVisible(true);
+                valid = false;
+            }
         }
 
-        if(availabilityComboBox.getValue() == null) {
-            availabilityComboBox.getStyleClass().add("error-field");
-            availabilityComboBoxErrorLabel.setVisible(true);
-            valid = false;
-        }
 
         return valid;
     }
-    public void updateRoomAvailabilityButton(ActionEvent event) {
-        switchPane(updateRoomAvailabilityPane);
+    public void deleteRoomButton(ActionEvent event) {
+        switchPane(deleteRoomPane);
+
+        deleteRoomComboBox.setItems(FXCollections.observableArrayList(Database.roomsDB));
+        deleteRoomComboBox.getStyleClass().removeAll("error-field");
+        deleteRoomErrorLabel.setVisible(false);
+        roomInfoLabel.setText("");
     }
-    public void confirmRoomAvailabilityChangeButton(ActionEvent event) {
-        if(!validateRoomAvailability()) return;
+    public void confirmRoom(ActionEvent event) {
+        deleteRoomComboBox.getStyleClass().removeAll("error-field");
+        deleteRoomErrorLabel.setVisible(false);
 
-        boolean availability = updateAvailabilityComboBox.getValue().toString().equalsIgnoreCase("Yes");
+        if(deleteRoomComboBox.getValue() == null) {
+            deleteRoomComboBox.getStyleClass().add("error-field");
+            deleteRoomErrorLabel.setText("Must select a room!");
+            deleteRoomErrorLabel.setVisible(true);
+            return;
+        }
 
-        if(Room.updateRoomAvailability(Integer.parseInt(roomIdField.getText()), availability)) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Room Availability Updated successfully!");
-            alert.showAndWait();
+        roomInfoLabel.setText(deleteRoomComboBox.getValue().getRoomInfo());
+    }
+    public void confirmRoomDeleteButton(ActionEvent event) {
+        deleteRoomComboBox.getStyleClass().removeAll("error-field");
+        deleteRoomErrorLabel.setVisible(false);
+
+        if(deleteRoomComboBox.getValue() == null) {
+            deleteRoomComboBox.getStyleClass().add("error-field");
+            deleteRoomErrorLabel.setText("Must select a room!");
+            deleteRoomErrorLabel.setVisible(true);
+            return;
         }
-        else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Couldn't find Room ID or encountered an error!");
-            alert.showAndWait();
-        }
+
+        deleteRoomComboBox.getValue().delete();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Room Deleted Successfully!");
+        alert.showAndWait();
+
+        deleteRoomComboBox.setValue(null);
 
         switchPane(manageRoomsPane);
-    }
-    public boolean validateRoomAvailability() {
-        boolean valid = true;
-
-        try {
-            int value = Integer.parseInt(roomIdField.getText());
-        } catch (NumberFormatException e) {
-            roomIdField.getStyleClass().add("error-field");
-            roomIdErrorLabel.setText("Please enter a valid number");
-            roomIdErrorLabel.setVisible(true);
-            valid = false;
-        }
-
-        if(updateAvailabilityComboBox.getValue() == null) {
-            updateAvailabilityComboBox.getStyleClass().add("error-field");
-            updateAvailabilityComboBoxErrorLabel.setVisible(true);
-            valid = false;
-        }
-
-        return valid;
     }
 
     // manage categories
@@ -557,24 +559,23 @@ public class AdminMenu {
     public void editCategoryButton(ActionEvent event) {
         switchPane(editCategoryPane);
 
-        initialize();
+        editAvailableCategoryComboBox.setItems(FXCollections.observableArrayList(Database.categoriesDB));
 
         editCategoryNameField.getStyleClass().removeAll("error-field");
         editCategoryNameErrorLabel.setVisible(false);
-        availableCategoryComboBox.getStyleClass().removeAll("error-field");
-        availableCategoryErrorLabel.setVisible(false);
+        editAvailableCategoryComboBox.getStyleClass().removeAll("error-field");
+        editAvailableCategoryErrorLabel.setVisible(false);
     }
-    public void confirmEditAddCategoryButton(ActionEvent event) {
+    public void confirmEditCategoryButton(ActionEvent event) {
         editCategoryNameField.getStyleClass().removeAll("error-field");
         editCategoryNameErrorLabel.setVisible(false);
-        availableCategoryComboBox.getStyleClass().removeAll("error-field");
-        availableCategoryErrorLabel.setVisible(false);
+        editAvailableCategoryComboBox.getStyleClass().removeAll("error-field");
+        editAvailableCategoryErrorLabel.setVisible(false);
 
-        String selected = availableCategoryComboBox.getValue();
-        if (selected == null || selected.isEmpty()) {
-            availableCategoryComboBox.getStyleClass().add("error-field");
-            availableCategoryErrorLabel.setText("Must select a category!");
-            availableCategoryErrorLabel.setVisible(true);
+        if (editAvailableCategoryComboBox.getValue() == null) {
+            editAvailableCategoryComboBox.getStyleClass().add("error-field");
+            editAvailableCategoryErrorLabel.setText("Must select a category!");
+            editAvailableCategoryErrorLabel.setVisible(true);
 
             return;
         }
@@ -587,15 +588,20 @@ public class AdminMenu {
             return;
         }
 
-        if(editCategoryNameField.getText().trim().isEmpty()) return;
-        if(editCategoryDescriptionField.getText().trim().isEmpty()) return;
+        Category category = new Category(categoryNameField.getText().trim(), categoryDescriptionField.getText().trim());
 
-        Category.update(availableCategoryComboBox.getValue(), new Category(categoryNameField.getText().trim(), categoryDescriptionField.getText().trim()));
+        if(categoryNameField.getText().trim().isEmpty())
+            category.setName(editAvailableCategoryComboBox.getValue().getName());
+
+        if(categoryDescriptionField.getText().trim().isEmpty())
+            category.setDescription(editAvailableCategoryComboBox.getValue().getDescription());
+
+        editAvailableCategoryComboBox.getValue().update(category);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Category Edited Successfully!");
         alert.showAndWait();
 
-        editAvailableCategoryComboBox.setValue(null);
+        deleteCategoryComboBox.setValue(null);
         editCategoryNameField.setText("");
         editCategoryDescriptionField.setText("");
 
@@ -604,24 +610,24 @@ public class AdminMenu {
     public void deleteCategoryButton(ActionEvent event) {
         switchPane(deleteCategoryPane);
 
-        initialize();
+        deleteCategoryComboBox.setItems(FXCollections.observableArrayList(Database.categoriesDB));
 
-        editAvailableCategoryComboBox.getStyleClass().removeAll("error-field");
-        editAvailableCategoryErrorLabel.setVisible(false);
+        deleteCategoryComboBox.getStyleClass().removeAll("error-field");
+        deleteCategoryErrorLabel.setVisible(false);
     }
     public void confirmDeleteCategoryButton(ActionEvent event) {
-        availableCategoryComboBox.getStyleClass().removeAll("error-field");
-        availableCategoryErrorLabel.setVisible(false);
+        editAvailableCategoryComboBox.getStyleClass().removeAll("error-field");
+        editAvailableCategoryErrorLabel.setVisible(false);
 
-        if(editAvailableCategoryComboBox.getValue().isEmpty()) {
-            editAvailableCategoryComboBox.getStyleClass().add("error-field");
-            editAvailableCategoryErrorLabel.setText("Must select a category!");
-            editAvailableCategoryErrorLabel.setVisible(false);
+        if(deleteCategoryComboBox.getValue() == null) {
+            deleteCategoryComboBox.getStyleClass().add("error-field");
+            deleteCategoryErrorLabel.setText("Must select a category!");
+            deleteCategoryErrorLabel.setVisible(false);
 
             return;
         }
 
-        Category.delete(availableCategoryComboBox.getValue());
+        deleteCategoryComboBox.getValue().delete();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Category Deleted Successfully!");
         alert.showAndWait();

@@ -26,18 +26,18 @@ public class Category {
     public void read() {
     }
 
-    public static void update(String s, Category c) {
+    public void update(Category c) {
         for (Category category : Database.categoriesDB) {
-            if (category.getName().equals(s)) {
+            if (category.equals(this)) {
                 category.setName(c.getName());
                 category.setDescription(c.getDescription());
-                return; // Exit once updated
+                break;
             }
         }
     }
 
-    public static void delete(String s) {
-        Database.categoriesDB.removeIf(category -> category.getName().equals(s));
+    public void delete() {
+        Database.categoriesDB.remove(this);
     }
 
     public static boolean isNameUnique(String s) {

@@ -49,19 +49,18 @@ public class Room {
     }
 
     public String getRoomInfo() {
-        return "Room ID:" + this.roomId
+        return "Room ID: " + this.roomId
                 + "\nRoom Type: " + this.roomType
                 + "\nRoom Price: $" + this.price;
     }
 
-    public static boolean updateRoomAvailability(int roomId, boolean availability) {
+    public static void updateRoomAvailability(int roomId, boolean availability) {
         for (Room room : Database.roomsDB) {
             if (room.getRoomId() == roomId) {
                 room.setAvailability(availability); // Directly update the room
-                return true; // Room updated successfully
+                return; // Room updated successfully
             }
         }
-        return false; // Room with the given ID was not found
     }
 
 
@@ -97,5 +96,9 @@ public class Room {
         }
 
         return rooms;
+    }
+
+    public void delete() {
+        Database.roomsDB.remove(this);
     }
 }

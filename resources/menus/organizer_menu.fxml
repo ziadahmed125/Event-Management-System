@@ -207,16 +207,16 @@
         <Label text="Rent Room">
             <font><Font name="Arial" size="18"/></font>
         </Label>
-        <HBox>
+        <HBox spacing="4">
             <VBox>
-                <ComboBox fx:id="availableRoomsComboBox" prefWidth="150" prefHeight="25" />
+                <ComboBox fx:id="availableRoomsComboBox" prefWidth="125" prefHeight="25" />
                 <Label fx:id="availableRoomsErrorLabel" visible="false" styleClass="error-label"/>
             </VBox>
             <VBox>
                 <Button onAction="#confirmRoomButton" text="Confirm" />
             </VBox>
         </HBox>
-        <Label fx:id="roomInfoLabel"/>
+        <Label fx:id="roomInfoLabel" visible="false"/>
         <Button onAction="#rentRoomButton" text="Rent"/>
         <Button onAction="#back" text="Back"/>
     </VBox>

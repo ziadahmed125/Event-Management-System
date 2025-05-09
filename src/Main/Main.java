@@ -32,17 +32,17 @@ public class Main extends Application {
         Database.attendeesDB.add(new Attendee("Alice", "Smith", "ASmith", Gender.valueOf("Female"), LocalDate.parse("1990-11-15"), "London", "alice.smith@example.com", "password456"));
         Database.attendeesDB.add(new Attendee("Bob", "Johnson", "BJohnson", Gender.valueOf("Male"), LocalDate.parse("1987-02-02"), "Paris", "bob.johnson@example.com", "password789"));
 
-// Adding Organizers
+        // Adding Organizers
         Database.organizersDB.add(new Organizer("Eve", "Davis", "EDavis", Gender.valueOf("Female"), LocalDate.parse("1982-04-05"), "Berlin", "eve.davis@example.com", "securepass1"));
         Database.organizersDB.add(new Organizer("Charlie", "Brown", "CBrown", Gender.valueOf("Male"), LocalDate.parse("1992-07-14"), "Toronto", "charlie.brown@example.com", "securepass2"));
         Database.organizersDB.add(new Organizer("Dana", "Lee", "DLee", Gender.valueOf("Female"), LocalDate.parse("1985-03-19"), "Sydney", "dana.lee@example.com", "securepass3"));
 
-// Adding Admins
+        // Adding Admins
         Database.adminsDB.add(new Admin("Grace", "Clark", "GClark", Gender.valueOf("Female"), LocalDate.parse("1980-10-30"), "Tokyo", "grace.clark@example.com", "adminpass1", "SuperAdmin", 10));
         Database.adminsDB.add(new Admin("Hannah", "Martinez", "HMartinez", Gender.valueOf("Female"), LocalDate.parse("1975-05-13"), "Dubai", "hannah.martinez@example.com", "adminpass2", "Manager", 15));
         Database.adminsDB.add(new Admin("Iris", "Garcia", "IGarcia", Gender.valueOf("Female"), LocalDate.parse("1983-09-25"), "Los Angeles", "iris.garcia@example.com", "adminpass3", "Staff", 8));
 
-// Adding Events
+        // Adding Events
         Database.eventsDB.add(new Event("Wedding Celebration", "An elegant wedding event", new Category("Wedding", "Celebrate love"),
                 new Room(true, "Banquet Hall", 250.0),
                 new Organizer("Eve", "Davis", "EDavis", Gender.valueOf("Female"), LocalDate.parse("1982-04-05"), "Berlin", "eve.davis@example.com", "securepass1"), 500.0));
@@ -51,12 +51,12 @@ public class Main extends Application {
                 new Room(true, "Concert Hall", 500.0),
                 new Organizer("Charlie", "Brown", "CBrown", Gender.valueOf("Male"), LocalDate.parse("1992-07-14"), "Toronto", "charlie.brown@example.com", "securepass2"), 100.0));
 
-// Adding Rooms
+        // Adding Rooms
         Database.roomsDB.add(new Room(true, "Conference Room", 150.0));
         Database.roomsDB.add(new Room(false, "Meeting Room", 80.0));
         Database.roomsDB.add(new Room(true, "Exhibition Hall", 200.0));
 
-// Adding Categories
+        // Adding Categories
         Database.categoriesDB.add(new Category("Seminar", "A professional seminar"));
         Database.categoriesDB.add(new Category("Workshop", "Hands-on practical learning"));
         Database.categoriesDB.add(new Category("Conference", "A large conference for networking"));

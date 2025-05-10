@@ -18,7 +18,7 @@ public class Event {
     private Room room;
     private Organizer organizer;
     private double ticketPrice;
-    private ArrayList<Attendee> attendees;
+    private ArrayList<Attendee> attendees = new ArrayList<>();
 
     public Event() {
         this.eventId = "EVT#" + idCounter++;

@@ -59,7 +59,7 @@ public class Organizer extends User {
             string += "Event #" + ++count
                     + "\nID: " + event.getEventId()
                     + "\nName: " + event.getName()
-                    + "\nOrganizer: " + event.getOrganizer().getUsername()
+                    + "\nTicket Price: $" + event.getTicketPrice()
                     + "\nRoom: " + event.getRoom().getRoomId()
                     + "\nDate: " + event.getDateTime()
                     + "\n-------------------\n";

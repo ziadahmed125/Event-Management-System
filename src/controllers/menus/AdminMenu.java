@@ -160,7 +160,7 @@ public class AdminMenu {
         if(setWorkingHoursField.getText().trim().isEmpty()) {
             setWorkingHoursField.getStyleClass().add("error-field");
             setWorkingHoursErrorLabel.setText("Filed can't be empty!");
-            setRoleField.setVisible(true);
+            setWorkingHoursErrorLabel.setVisible(true);
 
             return;
         }
@@ -171,7 +171,15 @@ public class AdminMenu {
         } catch (NumberFormatException e) {
             setWorkingHoursField.getStyleClass().add("error-field");
             setWorkingHoursErrorLabel.setText("Must be a number!");
-            setWorkingHoursField.setVisible(true);
+            setWorkingHoursErrorLabel.setVisible(true);
+
+            return;
+        }
+
+        if(Integer.parseInt(setWorkingHoursField.getText().trim()) <= 0 || Integer.parseInt(setWorkingHoursField.getText().trim()) > 14) {
+            setWorkingHoursField.getStyleClass().add("error-field");
+            setWorkingHoursErrorLabel.setText("Working hours must be between 0 and 14 hours!");
+            setWorkingHoursErrorLabel.setVisible(true);
 
             return;
         }

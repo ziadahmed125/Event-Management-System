@@ -25,17 +25,13 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         primaryStage = stage;
 
-        // Set the application icon
-        try {
-            Image icon = new Image(getClass().getResourceAsStream("/Icon.png"));
-            stage.getIcons().add(icon);
-        } catch (Exception e) {
-            System.err.println("Couldn't load icon: " + e.getMessage());
-        }
+        // Set icon
+        Image icon = new Image(getClass().getResourceAsStream("/Icon.png"));
+        stage.getIcons().add(icon);
 
         Database.attendeesDB.add(new Attendee("Ziad", "Ahmed", "XED", Gender.valueOf("Male"), LocalDate.parse("2007-05-12"), "Cairo", "@", ""));
         Database.organizersDB.add(new Organizer("Ziad", "Ahmed", "XED", Gender.valueOf("Male"), LocalDate.parse("2007-05-12"), "Cairo", "@", ""));
-        Database.adminsDB.add(new Admin("Ziad", "Ahmed", "XED", Gender.valueOf("Male"), LocalDate.parse("2007-05-12"), "Cairo", "@", "", "xxx", 8));
+        Database.adminsDB.add(new Admin("Ziad", "Ahmed", "XED", Gender.valueOf("Male"), LocalDate.parse("2007-05-12"), "Cairo", "@", "", "null", 0));
 
         // Adding Attendees
         Database.attendeesDB.add(new Attendee("John", "Doe", "JDoe", Gender.valueOf("Male"), LocalDate.parse("1995-08-23"), "New York", "john.doe@example.com", "password123"));

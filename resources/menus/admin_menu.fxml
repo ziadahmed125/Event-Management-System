@@ -34,9 +34,9 @@
         </Label>
         <VBox spacing="2">
             <TextField fx:id="setWorkingHoursField" promptText="Set Working Hours" />
-            <Label fx:id="setWorkingHoursErrorLabel" visible="false" styleClass="error-label"/>
+            <Label fx:id="setWorkingHoursErrorLabel" visible="false" styleClass="error-label" />
         </VBox>
-        <Button text="Confirm Working Hours" onAction="#confirmWorkingHours"/>
+        <Button text="Confirm Working Hours" onAction="#confirmWorkingHours"  stylesheets="@/css/style.css" styleClass="workingHoursButton" />
     </VBox>
 
     <!-- Admin Menu Page -->

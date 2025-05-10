@@ -211,7 +211,7 @@
             <Label fx:id="availableCategoriesErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
         <VBox>
-            <Label text=" Select Room(Must be Rented):">
+            <Label text=" Select Room (Must be Rented):">
                 <font><Font name="Arial" size="10"/></font>
             </Label>
             <ComboBox fx:id="availableOrganizerRoomsComboBox" prefWidth="200" />
@@ -224,8 +224,16 @@
             <TextField fx:id="eventPriceField" promptText="Price" />
             <Label fx:id="eventPriceErrorLabel" visible="false" styleClass="error-label"/>
         </VBox>
+        <VBox spacing="2">
+            <Label text=" Event Date:">
+                <font><Font name="Arial" size="10"/></font>
+            </Label>
+            <DatePicker fx:id="eventDateField" prefWidth="200" promptText="Event Date" />
+            <Label fx:id="eventDateErrorLabel" visible="false" styleClass="error-label"/>
+        </VBox>
         <Button onAction="#confirmAddEventButton" text="Confirm"/>
         <Button onAction="#back" text="Back"/>
+
     </VBox>
     <!-- Delete Event -->
     <VBox fx:id="deleteEventPane" alignment="CENTER" maxWidth="-Infinity" prefWidth="200" spacing="8" visible="false" managed="false">

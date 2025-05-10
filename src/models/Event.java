@@ -14,14 +14,14 @@ public class Event {
     private String name;
     private String description;
     private Category category;
-    private LocalDateTime dateTime;
+    private LocalDate dateTime;
     private Room room;
     private Organizer organizer;
     private double ticketPrice;
     private ArrayList<Attendee> attendees;
 
     public Event() {
-
+        this.eventId = "EVT#" + idCounter++;
     }
 
     public Event(String name, String description, Category category, Room room, Organizer organizer, double ticketPrice) {
@@ -115,10 +115,10 @@ public class Event {
     public void setRoom (Room room) {
         this.room = room;
     }
-    public LocalDateTime getDateTime() {
+    public LocalDate getDateTime() {
         return dateTime;
     }
-    public void setDateTime (LocalDateTime dateTime) {
+    public void setDateTime(LocalDate dateTime) {
         this.dateTime = dateTime;
     }
     public Organizer getOrganizer() {

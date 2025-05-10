@@ -93,6 +93,8 @@ public class OrganizerMenu {
     @FXML private Label availableRoomsOrganizingErrorLabel;
     @FXML private TextField eventPriceField;
     @FXML private Label eventPriceErrorLabel;
+    @FXML private DatePicker eventDateField;
+    @FXML private Label eventDateErrorLabel;
 
     // delete event
     @FXML private ComboBox<Event> deleteEventComboBox;
@@ -436,26 +438,47 @@ public class OrganizerMenu {
         availableCategoriesErrorLabel.setVisible(false);
         availableRoomsErrorLabel.setVisible(false);
         eventPriceErrorLabel.setVisible(false);
+
+        eventDateField.getStyleClass().removeAll("error-field");
+        eventDateErrorLabel.setVisible(false);
     }
+
     public void confirmAddEventButton(ActionEvent event) {
+        // Clear all previous errors
         eventNameField.getStyleClass().removeAll("error-field");
         eventDescriptionField.getStyleClass().removeAll("error-field");
         availableCategoriesComboBox.getStyleClass().removeAll("error-field");
         availableOrganizerRoomsComboBox.getStyleClass().removeAll("error-field");
         eventPriceField.getStyleClass().removeAll("error-field");
+        eventDateField.getStyleClass().removeAll("error-field");
+
         eventNameErrorLabel.setVisible(false);
         eventDescriptionErrorLabel.setVisible(false);
         availableCategoriesErrorLabel.setVisible(false);
         availableRoomsOrganizingErrorLabel.setVisible(false);
         eventPriceErrorLabel.setVisible(false);
+        eventDateErrorLabel.setVisible(false);
 
         boolean valid = true;
 
+        // Validate event date
+        if (eventDateField.getValue() == null) {
+            eventDateField.getStyleClass().add("error-field");
+            eventDateErrorLabel.setText("Date of Event is required!");
+            eventDateErrorLabel.setVisible(true);
+            valid = false;
+        } else if (eventDateField.getValue().isBefore(LocalDate.now())) {
+            eventDateField.getStyleClass().add("error-field");
+            eventDateErrorLabel.setText("Date can't be in the Past!");
+            eventDateErrorLabel.setVisible(true);
+            valid = false;
+        }
+
+        // Validate other fields
         if(eventNameField.getText().trim().isEmpty()) {
             eventNameField.getStyleClass().add("error-field");
             eventNameErrorLabel.setText("Can't be empty!");
             eventNameErrorLabel.setVisible(true);
-
             valid = false;
         }
 
@@ -463,23 +486,20 @@ public class OrganizerMenu {
             eventDescriptionField.getStyleClass().add("error-field");
             eventDescriptionErrorLabel.setText("Can't be empty!");
             eventDescriptionErrorLabel.setVisible(true);
-
             valid = false;
         }
 
-        if(availableCategoriesComboBox == null) {
+        if(availableCategoriesComboBox.getValue() == null) {  // Changed from checking comboBox to its value
             availableCategoriesComboBox.getStyleClass().add("error-field");
             availableCategoriesErrorLabel.setText("Can't be empty!");
             availableCategoriesErrorLabel.setVisible(true);
-
             valid = false;
         }
 
-        if(availableOrganizerRoomsComboBox == null) {
+        if(availableOrganizerRoomsComboBox.getValue() == null) {  // Changed from checking comboBox to its value
             availableOrganizerRoomsComboBox.getStyleClass().add("error-field");
             availableRoomsOrganizingErrorLabel.setText("Can't be empty!");
             availableRoomsOrganizingErrorLabel.setVisible(true);
-
             valid = false;
         }
 
@@ -487,30 +507,35 @@ public class OrganizerMenu {
             eventPriceField.getStyleClass().add("error-field");
             eventPriceErrorLabel.setText("Can't be empty!");
             eventPriceErrorLabel.setVisible(true);
-
             valid = false;
-        }
-
-        try {
-            double value = Double.parseDouble(eventPriceField.getText().trim());
-        } catch (NumberFormatException e) {
-            eventPriceField.getStyleClass().add("error-field");
-            eventPriceErrorLabel.setText("Must be a number!");
-            eventPriceErrorLabel.setVisible(true);
-
-            valid = false;
+        } else {
+            try {
+                double value = Double.parseDouble(eventPriceField.getText().trim());
+                if (value <= 0) {
+                    eventPriceField.getStyleClass().add("error-field");
+                    eventPriceErrorLabel.setText("Price must be positive!");
+                    eventPriceErrorLabel.setVisible(true);
+                    valid = false;
+                }
+            } catch (NumberFormatException e) {
+                eventPriceField.getStyleClass().add("error-field");
+                eventPriceErrorLabel.setText("Must be a valid number!");
+                eventPriceErrorLabel.setVisible(true);
+                valid = false;
+            }
         }
 
         if(!valid) return;
 
+        // Create the event if all validations pass
         Event e = new Event();
-
         e.setName(eventNameField.getText().trim());
         e.setDescription(eventDescriptionField.getText().trim());
         e.setCategory(availableCategoriesComboBox.getValue());
         e.setRoom(availableOrganizerRoomsComboBox.getValue());
         e.setOrganizer(loggedInOrganizer);
         e.setTicketPrice(Double.parseDouble(eventPriceField.getText().trim()));
+        e.setDateTime(eventDateField.getValue());
 
         e.create();
         loggedInOrganizer.setEventsOrganizing(e);
@@ -518,12 +543,17 @@ public class OrganizerMenu {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Event created successfully!");
         alert.showAndWait();
 
+        // Clear fields
         eventNameField.setText("");
         eventDescriptionField.setText("");
         eventPriceField.setText("");
+        eventDateField.setValue(null);
+        availableCategoriesComboBox.setValue(null);
+        availableOrganizerRoomsComboBox.setValue(null);
 
         switchPane(mainMenuPane);
     }
+
     public void deleteEvent(ActionEvent event) {
         switchPane(deleteEventPane);
 

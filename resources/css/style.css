@@ -1,6 +1,6 @@
 .error-label {
     -fx-text-fill: red;
-    -fx-font-size: 8px;
+    -fx-font-size: 9px;
     -fx-padding: 2 0 0 2;
 }
 
@@ -149,6 +149,23 @@
 }
 
 .button:hover {
+    -fx-background-color: #357ABH;
+     -fx-opacity: 1
+}
+
+
+.workingHoursButton {
+    -fx-background-color: #4A90E2;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-background-radius: 7;
+    -fx-padding: 3 13;
+     -fx-opacity: 0.865;
+     -fx-pref-width: 170px;
+     -fx-pref-height: 19px;
+}
+
+.workingHoursButton:hover {
     -fx-background-color: #357ABH;
      -fx-opacity: 1
 }
